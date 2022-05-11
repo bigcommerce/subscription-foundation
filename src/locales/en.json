@@ -1,0 +1,144 @@
+{
+  "Home": {
+    "title": "Subscriptions and invoicing for ambitious businesses",
+    "description": "Stripe Billing is the fastest way for your business to bill customers with subscriptions or invoices. Capture more revenue, support new products or business models, and accept recurring payments globally.",
+    "buttonText": "Connect Stripe Account",
+    "createAccountText": "Don't have an account?",
+    "createAccountLinkText": "Create one"
+  },
+
+  "Onboarding": {
+    "pageTitle": "Onboarding"
+  },
+
+  "OnboardingFlow": {
+    "title": "Create Stripe Subscription channel",
+    "successMessage": "Stripe Subscription Channel was created successfully",
+    "cancelButtonText": "Cancel",
+    "createChannelText": "Create channel",
+    "continueButtonText": "Continue",
+    "stepOne": "Connect with Stripe",
+    "stepTwo": "Display settings",
+    "stepThree": "Theme configuration"
+  },
+
+  "CheckoutSettings": {
+    "header": "Storefront Setup",
+    "copy": "To enable subscription functionality on your storefront, your theme needs to be updated to handle rendering of the subscribe and subscription management content.",
+    "stepOneTitle": "Navigate to Storefront > My Themes",
+    "stepOneLinkText": "Go to My Themes",
+    "stepTwoTitle": "Create a copy of your theme and open the Theme Files Editor",
+    "stepTwoLinkText": "Learn about Theme Editor",
+    "stepThreeTitle": "Copy and paste the following code into your Product Detail Page. This is where the Subscribe and Save widget will be rendered.",
+    "stepThreeSubtitle": "For the Cornerstone theme, try placing at the end of this file: /templates/components/products/add-to-cart.html",
+    "stepFourTitle": "Copy and paste the following code into your account navigation template. This will allow customers to manage their existing subscriptions.",
+    "stepFourSubtitle": "For the Cornerstone theme, try placing at the end of this file: /templates/components/account/navigation.html"
+  },
+
+  "DisplaySettings": {
+    "title": "Display settings",
+    "descriptionLineOne": "Configure the look and feel of the subscription widget that will be added to your product detail pages.",
+    "descriptionLineTwo": "This is only available for merchants using the BigCommerce Stencil Theme Engine - ",
+    "learnMoreLink": "learn more.",
+    "subsWidgetLabelHeader": "Subscription widget label",
+    "subsWidgetDescription": "Define the header text for the subscription widget.",
+    "subsWidgetLabelPlaceholder": "Subscribe and Save!",
+    "addToCardLabelHeader": "Add to Card button label",
+    "addToCardDescription": "Define the display text for the Add to Card button",
+    "addToCardPlaceholder": "Subscribe!",
+    "widgetColorsHeader": "Widget Colors",
+    "widgetColorsDesc": "Define the text, background and button colors for the widget.",
+    "widgetBGColorLabel": "Widget Background Color",
+    "widgetTextColorLabel": "Widget Text Color",
+    "buttonBGColorLabel": "Button Background Color",
+    "buttonTextColorLabel": "Button Text Color",
+    "widgetTemplateLabel": "Widget Template",
+    "widgetTemplatePlaceholder": "<div id='subscription_widget'></div>"
+  },
+
+  "SubscriptionPreview": {
+
+  },
+
+
+  "StripeConnect": {
+    "connectText": "Connect your Stripe account with BigCommerce to continue setting up subscriptions.",
+    "badgeLabel": "connected",
+    "connectButtonText": "Connect with Stripe",
+    "switchAccount": "Switch Account",
+    "connectedText": "You're connected to the following account: {name}"
+  },
+
+  "Settings": {
+    "headTitle": "Settings",
+    "title": "Channel Settings",
+    "logoutDescription": "Logout of your account"
+  },
+
+  "SubscriptionWidget": {
+    "widgetPreviewText": "Widget Preview",
+    "widgetRadioLabel": "{radioLabel}",
+    "widgetLabel": "{label}",
+    "widgetLabelPlaceholder": "Subscribe and Save!"
+  },
+
+  "SubscriptionButton": {
+    "buttonLabel": "{label}",
+    "buttonDefaultLabel": "Subscribe!"
+  },
+
+  "EnabledSubscriptionCheck": {
+    "checkboxTrueLabel": "",
+    "checkboxFalseLabel": ""
+  },
+
+  "ProductsListPane": {
+    "title": "Subscription Products",
+    "searchInputPlaceholder": "Search",
+    "allProductsPlaceholder": "All Products"
+  },
+
+  "SubscriptionEditPane": {
+    "title": "Edit Product Subscription",
+    "cancelButtonText": "Cancel",
+    "saveButtonText": "Save",
+    "saveSuccessText": "Subscription Config for [{sku}] was successfully saved"
+  },
+
+  "VariantProductListPane": {
+    "title": "Variant Product List",
+    "searchInputPlaceholder": "Search",
+    "allProductsPlaceholder": "All Products",
+    "backButtonText": "Back"
+  },
+
+  "SubscriptionEditPanel": {
+    "variants": "Variants:",
+    "price": "Price:",
+    "frequenciesTitle": "Subscription frequencies",
+    "frequenciesCopy": "Configure the subscription frequencies and discounts you'd like to offer. By default, this will be inherited by all products enabled for subscriptions. This can be customized per-product within your catalog.",
+    "oneTimePurchaseLabel": "Enable one-time purchases"
+  },
+
+  "Frequencies": {
+    "ruleCondition": "Rule Condition",
+    "discount": "Discount",
+    "equals": "=",
+    "defaultOptionLabel": "Default Option",
+    "delete": "Delete",
+    "addNewRule": "Add New Rule",
+    "every": "Every {num}"
+  },
+
+  "RuleConditions": {
+    "every": "Every {num}"
+  },
+
+  "Support": {
+    "title": "Support"
+  },
+
+  "errors": {
+  }
+
+}

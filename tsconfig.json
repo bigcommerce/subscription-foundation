@@ -1,0 +1,60 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "experimentalDecorators": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "@/requests/*": [
+        "./shared/requests/*"
+      ],
+      "@/constants/*": [
+        "./shared/constants/*"
+      ],
+      "@/types/*": [
+        "./shared/types/*"
+      ],
+      "@/backend/*": [
+        "./backend/*"
+      ],
+      "@/frontend/*": [
+        "./src/*"
+      ],
+      "@/shared/*": [
+        "./shared/*"
+      ]
+    },
+    "incremental": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/**/*.tsx",
+    "**/*.tsx",
+    "ssr-server.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "next.config.js"
+  ]
+}

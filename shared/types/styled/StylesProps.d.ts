@@ -1,0 +1,1 @@
+type StylesProps = React.CSSProperties;

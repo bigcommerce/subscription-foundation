@@ -1,0 +1,363 @@
+
+<script>
+var siteUrl = window.location.protocol + '//' + window.location.hostname;
+var productId = parseInt(document.querySelector('.form input[name="product_id"]').value);
+var productSkuNode = document.querySelector('.productView-info-value[data-product-sku]');
+var productSku = productSkuNode.textContent;
+var isProductVariation = document.querySelector("div[data-product-option-change]");
+
+var subWidgetConfig = '';
+var subVariantProducts = {};
+var cart = [];
+
+var style = document.createElement('style');
+style.textContent = `
+  #stripe_subscription_submit_btn{overflow:hidden;border:none;border-width:0;margin-top:15px;padding:0 16px;height:36px;font-size:16px;font-weight:600;cursor:pointer;border-radius:5px}
+  #stripe_subscription_submit_btn .load:before,.load:after{content:'';position:absolute;top:50%;left:50%;transform:translate(calc(-50% - 15px),calc(-50% - 15px));border-radius:50%;width:25px;height:25px}
+  #stripe_subscription_submit_btn .load:after{border:3px solid #fff;border-left:3px solid transparent;border-bottom:3px solid transparent;animation:loading1 1s ease infinite;z-index:10}
+  #stripe_subscription_submit_btn .load:before{border:3px dashed #fff;border-left:3px solid transparent;border-bottom:3px solid transparent;animation:loading1 2s linear infinite;z-index:5}
+  @keyframes loading1{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+  #stripe_subscription_submit_btn.active{transform:scale(.85)}
+  #stripe_subscription_submit_btn.activeLoading{text-indent:999%}
+  #stripe_subscription_submit_btn.activeLoading .loading{visibility:visible;opacity:1;position:absolute;left:50%;top:50%;transform:translate(calc(-50% - 12px),calc(-50% - 13px))}
+  #stripe_subscription_submit_btn .loading{opacity:0;visibility:hidden}
+`;
+document.head.appendChild(style);
+
+var widgetHTML = `<div id="sub-widget" style="opacity: 0;">
+  <div style="display: grid; width: 100%; padding: 32px; background-color:{{widgetBgColor}}; font-size: 15.5px; font-weight: 400; border-radius: 0.25rem; text-align: center; box-shadow: 0px 2px 12px rgb(49 52 64 / 20%);">
+      <h2 style="font-size: 22px; color: {{widgetTextColor}}; margin-top: 0;">{{widgetLabel}}</h2>
+      <form id="stripe_subscription_form" class="form" style="margin:0;" onsubmit="javascript:return false;">
+          <div id='sub-options'></div> 
+          <button id="stripe_subscription_submit_btn" class="button button--primary" type="button" style="background-color:{{buttonBgColor}}; color: {{buttonTextColor}};">{{buttonLabel}}<span class="load loading"></span></button>
+      </form>
+  </div>
+</div>`;
+
+// Get Cart using Storefront API
+async function getCart() {
+
+  try {
+    var response = await fetch('/api/storefront/carts?include=lineItems.digitalItems.options,lineItems.physicalItems.options', {
+      method: "GET",
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+    if (!response.ok) {
+      throw new Error('HTTP error: ' + response.status);
+    }
+    var json = await response.json();
+    return json;
+  } catch (error) {
+    console.error('getCart error: ' + error);
+  }
+
+}
+
+
+/**
+ * Create Storefront Cart
+ * Makes sure server side cart function uses same cart id
+ * Must create a cart using the storefront api first then pass that cart id to use server side
+ * 
+ * @param    cart     object  Required. The cart object including line items
+ * @returns  response object  The cart id if cart exist and both cart line item id 
+ * */
+async function createStorefrontCart(cart) {
+  try {
+    var response = await fetch('/api/storefront/cart', {
+      method: "POST",
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cart)
+    });
+
+    var json = await response.json();
+
+    if (response.status == 200) {
+      response = {
+        cart_id: json.id,
+        item_id: json.lineItems.physicalItems[0].id
+      }
+    } else {
+      // get exisiting cart id from string
+      response = str.substring(
+        str.indexOf("`") + 1,
+        str.lastIndexOf("`")
+      );
+    }
+
+    return response;
+  } catch (error) {
+    console.error('createStorefrontCart :: error :: ', error);
+  }
+}
+
+async function updateCartItem(cart_id, item_id, cart) {
+  try {
+    var response = await fetch(`{{appUrl}}/api/cart/` + cart_id + '/item/' + item_id, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cart)
+    });
+
+    var json = response.json();
+
+    return json;
+  } catch (e) {
+    console.error('updateCartItem :: error :: ', e);
+  }
+}
+
+async function addCartItems(cart_id, cart) {
+  try {
+    var response = await fetch(`{{appUrl}}/api/cart/` + cart_id, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cart)
+    });
+
+    var json = response.json();
+
+    return json;
+  } catch (e) {
+    console.error('addCartItems :: error :: ', e);
+  }
+}
+
+async function deleteCartItem(cart_id, item_id) {
+  try {
+    var response = await fetch(`{{appUrl}}/api/cart/` + cart_id + '/item/' + item_id, {
+      method: "DELETE",
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    var json = response.json();
+
+    return json;
+  } catch (e) {
+    console.error('deleteCartItem :: error :: ', e);
+  }
+}
+
+function bindElements() {
+  var $subscribe_form = document.getElementById('stripe_subscription_form');
+  var $subscribe_btn = document.getElementById('stripe_subscription_submit_btn');
+
+  $subscribe_btn.addEventListener("click", function (e) {
+    (async function () {
+      var storefront_cart = {
+        line_items: []
+      };
+      var new_cart = {
+        line_items: []
+      };
+      var cartItemResponse = false;
+
+      var $selected_sub_option = document.querySelector('input[name="sub_option[]"]:checked');
+      var product_name = document.querySelector('h1.productView-title').innerText;
+
+      var list_price = parseFloat(($selected_sub_option.dataset.calculatedPrice / 100).toFixed(2));
+
+      // Add loading animation to subscribe button
+      e.target.classList.add('activeLoading');
+
+      storefront_cart.line_items.push({
+        quantity: 1,
+        product_id: productId,
+        list_price: list_price,
+        name: 'Subscription:' + product_name,
+      });
+
+      new_cart.line_items.push({
+        quantity: 1,
+        product_id: productId,
+        list_price: list_price,
+        name: 'Subscription:' + product_name + ' :' + $selected_sub_option.value,
+      });
+
+      if (typeof (cart.id) === 'undefined') {
+        // Create storefront mock cart to get cart id
+        storefront_cart = await createStorefrontCart(storefront_cart);
+
+        // Add cart item to existing cart
+        cartItemResponse = await addCartItems(storefront_cart.cart_id, new_cart);
+
+        // Delete mock product (which has the incorrect, original price)
+        var deleteCartItemResponse = await deleteCartItem(storefront_cart.cart_id, storefront_cart.item_id)
+      } else {
+        cartItemResponse = await addCartItems(cart.id, new_cart);
+      }
+
+      if (typeof (cartItemResponse.data) !== 'undefined') {
+        window.location.href = '/checkout';
+      } else {
+        console.error('Error occurred adding subscription to the cart :: ', cartItemResponse);
+      }
+    }());
+  });
+}
+
+// Build the subscription widget
+function buildWidget(config) {
+  if (config.is_enabled === false) return;
+
+  var $inital_widget_container = document.getElementById('sub-widget');
+  var $subsciption_options = document.getElementById('sub-options');
+
+  // If onetime purchase is false, disable the add to cart button so it's a subscription only product 
+  if (!subWidgetConfig.onetime_purchase) {
+    document.getElementById('form-action-addToCart').disabled = true;
+    document.getElementsByClassName('productView-price')[0].append('This is a subscription only product.');
+  }
+
+  // Build widget options
+  var html = config.options.reduce((optionHtml, option) => {
+    return `${optionHtml}
+      <div style='margin: 10px 0px;text-align: left;'>
+        <input
+          style='transform: scale(1.5);margin: 0px 8px 0px 0px;' id='sub_con${option.id}' type='radio'
+          name='sub_option[]'
+          value='${option.stripe_price_id}' 
+          data-calculated-price='${option.calculated_price_decimal}' 
+          ${config?.default_option_id == option.id ? 'checked' : ''}
+        />
+        <label for='sub_con${option.id}'>
+          ${option.frequency > 1 ? 
+            `Every ${option.frequency} ${option.type}s - Save ${option.discount}${option.unit}!` :
+            `Every ${option.type} - Save ${option.discount}${option.unit}!`}
+        </label><br />
+      </div>`
+  }, '');
+
+  // Insert widget option HTML into the widget container div, which was inserted into storefront's theme
+  $subsciption_options.innerHTML = html;
+
+  // Only render widget a single time per page load
+  if (typeof ($inital_widget_container) !== 'undefined' && $inital_widget_container !== null) {
+    // Render final widget HTML
+    var widget_final_html = $inital_widget_container.innerHTML;
+
+    // Insert final widget to theme widget div
+    document.getElementById('stripe_subscription_widget').innerHTML = widget_final_html;
+
+    // Remove initial widget HTML
+    document.getElementById('sub-widget').remove();
+  }
+
+  bindElements();
+}
+
+// Get subscription widget options
+var getSubscriptionOptions = async () => {
+  fetch(`${siteUrl}/graphql`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer {{apiToken}}'
+      },
+      body: JSON.stringify({
+        query: `query Product( $productId: Int = ${productId}, $namespace: String = "{{subscriptionMetafieldNamespace}}", $subscription_config: String = "{{subscriptionMetafieldKey}}") { site { product(entityId: $productId) { name variants { edges { node { sku metafields(namespace: $namespace, keys: [$subscription_config] ) { edges { node { key value } } } } } } } } }`
+      }),
+    })
+    .then(res => res.json())
+    .then(json => {
+      var subWidgetConfigString = json?.data?.site?.product?.variants?.edges?.[0].node?.metafields;
+      subVariantProducts = json?.data?.site?.product?.variants?.edges;
+
+      if (typeof subWidgetConfigString !== 'undefined') {
+        subWidgetConfig = subWidgetConfigString.edges?.[0]?.node?.value;
+
+        if (typeof subWidgetConfig !== 'undefined') {
+          subWidgetConfig = JSON.parse(subWidgetConfig);
+
+          buildWidget(subWidgetConfig);
+        } else {
+          console.log('No subscription options have been defined for this product');
+        }
+      }
+    });
+}
+
+// Add inital widget html into region for processing
+document.querySelector('[data-content-region="product_below_content"]').innerHTML += widgetHTML;
+
+// If variation product, add mutation observer to update subscription options for variation products
+if (typeof isProductVariation !== 'undefined' && isProductVariation !== null) {
+  // Options for the observer (which mutations to observe)
+  var mutationConfig = {
+    childList: true,
+    subtree: true,
+    characterData: true,
+    characterDataOldValue: true
+  };
+
+  // Callback function to execute when mutations are observed
+  var callback = function (mutationsList, observer) {
+    // Use traditional 'for loops' for IE 11
+    for (var mutation of mutationsList) {
+      if (mutation.addedNodes.length) {
+        var variationSku = mutation.addedNodes[0].textContent;
+
+        if (variationSku !== productSku) {
+          var variantFound = false;
+
+          // Get subscription options by variant id
+          for (variationProduct of subVariantProducts) {
+            // If sku matches, update subscription widget with new options
+            if (variationProduct.node.sku == variationSku) {
+              var variationConfig = variationProduct.node.metafields?.edges?.[0].node?.value;
+
+              if (typeof variationConfig !== 'undefined') {
+                variantFound = true;
+
+                // Make subscribe button visible just in case it was hidden because of a missing variation subscription option
+                $subscribe_btn.style.display = "inline-block";
+
+                // Update the widget 
+                buildWidget(JSON.parse(variationConfig));
+              }
+            }
+          }
+
+          // If variant was not found, add message that no subscription is available for this variation of the product
+          if (!variantFound) {
+            $subscribe_btn.style.display = "none";
+            document.getElementById('sub-options').innerHTML = '<p>Sorry, there are no subscriptions available for this variation.</p>';
+          }
+        }
+      }
+    }
+  };
+
+  // Create an observer instance linked to the callback function
+  var observer = new MutationObserver(callback);
+
+  // Start observing the target node for configured mutations
+  observer.observe(productSkuNode, mutationConfig);
+}
+
+(async function () {
+  // Get the current cart
+  var getCartResponse = await getCart();
+
+  if (getCartResponse.length) {
+    cart = getCartResponse[0];
+  }
+
+  // Get initial subscription options
+  getSubscriptionOptions();
+})();
+</script>

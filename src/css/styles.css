@@ -1,0 +1,48 @@
+body {
+  height: 100%;
+  max-width: 1580px;
+  padding: 2rem;
+  font-family: "Source Sans Pro","Helvetica Neue",Arial,sans-serif;
+}
+
+.fade-in-enter .trans-item {
+  opacity: 0;
+}
+.fade-in-enter-active .trans-item {
+  opacity: 1;
+}
+.fade-in-exit .trans-item {
+  opacity: 1;
+}
+.fade-in-exit-active .trans-item {
+  opacity: 0;
+}
+
+.fade-out-enter .trans-item {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.fade-out-enter-active .trans-item {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.fade-out-exit .trans-item {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.fade-out-exit-active .trans-item {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+
+.fade-in-active .trans-item,
+.fade-out-active .trans-item,
+.fade-in-exit-active .trans-item,
+.fade-out-exit-active .trans-item {
+  transition: opacity 500ms, transform 500ms;
+}
+
+.no-word-wrap{
+  white-space: nowrap;
+}

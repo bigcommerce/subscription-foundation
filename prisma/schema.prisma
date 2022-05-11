@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Store {
+  id                              Int             @id @default(autoincrement())
+  hash                            String          @unique
+  url                             String?
+  accessToken                     String
+  storefrontToken                 String?
+  customerAttributeFieldId        Int?
+  subscriptionsAttributeFieldId   Int?
+  scriptId                        String?
+  widgetId                        String?
+  widgetTemplateId                String?
+  widgetPlacementId               String?
+  Stripe                          Stripe?
+  StoreSetting                    StoreSetting?
+  Users                           UsersOnStores[]
+  createdAt                       DateTime?       @default(now())
+  updatedAt                       DateTime?       @updatedAt
+  DisplaySetting                  DisplaySetting?
+}
+
+model User {
+  id        Int             @id
+  token     String          @default("")
+  email     String          @unique
+  username  String?
+  createdAt DateTime?       @default(now())
+  updatedAt DateTime?       @updatedAt
+  Stores    UsersOnStores[]
+}
+
+model UsersOnStores {
+  userId  Int
+  storeId Int
+  User    User  @relation(fields: [userId], references: [id])
+  Store   Store @relation(fields: [storeId], references: [id])
+
+  @@id([userId, storeId])
+}
+
+model Stripe {
+  id                    Int       @id @default(autoincrement())
+  accessToken           String
+  refreshToken          String
+  publishableKey        String
+  stripeUserId          String?
+  email                 String?
+  dashboardDisplayName  String?
+  storeId               Int       @unique
+  Store                 Store     @relation(fields: [storeId], references: [id])
+  createdAt             DateTime? @default(now())
+  updatedAt             DateTime? @updatedAt
+}
+
+model StripeProduct {
+  id       String
+  priceIds String
+  @@id([id,priceIds])
+}
+
+model DisplaySetting {
+  id              Int       @id @default(autoincrement())
+  widgetLabel     String
+  widgetBgColor   String
+  widgetTextColor String
+  buttonLabel     String
+  buttonBgColor   String
+  buttonTextColor String
+  storeId         Int       @unique
+  Store           Store     @relation(fields: [storeId], references: [id])
+  createdAt       DateTime? @default(now())
+  updatedAt       DateTime? @updatedAt
+}
+
+model StoreSetting {
+  id          Int       @id @default(autoincrement())
+  location    String?   @default("")
+  Store       Store     @relation(fields: [storeId], references: [id])
+  importData  Boolean?  @default(false)
+  includeDesc Boolean?  @default(false)
+  includeImg  Boolean?  @default(false)
+  keepLevels  Boolean?  @default(false)
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
+  storeId     Int       @unique
+}

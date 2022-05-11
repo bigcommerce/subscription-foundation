@@ -1,0 +1,7 @@
+next.config.js
+/src/types/
+**/node_modules
+node_modules/*
+node_modules
+node_modules/**
+./node_modules/**

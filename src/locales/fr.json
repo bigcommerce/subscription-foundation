@@ -1,0 +1,9 @@
+{
+  "home": {
+    "title": "Abonnements et facturation pour les entreprises ambitieuses",
+    "description": "Stripe Billing est le moyen le plus rapide pour votre entreprise de facturer les clients avec des abonnements ou des factures. Capturez plus de revenus, prenez en charge de nouveaux produits ou modèles commerciaux et acceptez les paiements récurrents dans le monde entier.",
+    "button": "Connecter le compte Stripe",
+    "createAccount": "Vous n'avez pas de compte ?",
+    "createAccountLink": "Créer une"
+  }
+}
