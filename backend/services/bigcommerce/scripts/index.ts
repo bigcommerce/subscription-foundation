@@ -33,7 +33,8 @@ export default class ScriptsApi extends BigBaseApi {
     // Replace Handlebar variables in template, since we want to be able to reuse between Widgets and Scripts
     // (Widgets store custom config variables which are replaced as they are rendered, while Scripts support Stencil objects only)
     for (const key in templateData) {
-      content = content.replace("/{{" + key + "}}/g", templateData[key]);
+      let re = new RegExp(`{{${key}}}`, 'g');
+      content = content.replace(re, templateData[key]);
     }
 
     return content;
