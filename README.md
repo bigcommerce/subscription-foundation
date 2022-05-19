@@ -12,27 +12,39 @@
 
 ## Getting Started
 
-Run:
+#### 1) Create Local Environment File
+
+```bash
+cp .env.sample .env
+```
+
+At a minimum, the following .env variables need to be updated for the app to sucessfully run inside the BigCommerce control panel and storefront.
+
+- `NEXT_PUBLIC_APP_URL`
+  - This should be a publicly accessible URL so the BigCommerce Stripe webhooks can be recieved. See the section on ngrok below.
+- `NEXT_PUBLIC_APP_ID`, `BC_APP_CLIENT_ID`, and `BC_APP_SECRET`
+  - Follow the BigCommerce setup instructions below to get these.
+- `STRIPE_SECRET_KEY` and `NEXT_PUBLIC_STRIPE_CLIENT_ID`
+  - Follow the Stripe setup instructions below to get these.
+
+#### 2) Install App Dependencies
+
+_We recommend using node v14.17.0_
 
 ```bash
 npm install
-npx prisma generate
+npx prisma migrate dev
+```
+
+_Note: `npx prisma migrate dev` is what creates the DB tables and initial client. If you miss this step, you'll see errors about prisma missing._
+
+#### 3) Run App
+
+```bash
 npm run dev
 ```
 
-_Note: `npx prisma generate` is what creates the DB client. If you miss this step, you'll see an error about it missing._
-
-The app should now be running at: http://localhost:3000
-
-## Environment
-
-At a minimum, the following .env variables need to be updated for the app to run successfully
-
-`NEXT_PUBLIC_APP_URL`: This should be a publicly accessible URL so the BigCommerce Stripe webhooks can be recieved. See the section on ngrok below.
-
-`NEXT_PUBLIC_APP_ID`, `BC_APP_CLIENT_ID`, and `BC_APP_SECRET`: Follow the BigCommerce setup instructions below to get these.
-
-`STRIPE_SECRET_KEY` and `NEXT_PUBLIC_STRIPE_CLIENT_ID`: Follow the Stripe setup instructions below to get these.
+The app should now be installable as a draft app on your BigCommerce store.
 
 ## Using ngrok
 
