@@ -5,6 +5,7 @@
   "version": "0.9.0",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/prebuild.mjs",
     "build": "next build",
     "start": "next start -p $PORT",
     "type-check": "tsc --pretty --noEmit",
