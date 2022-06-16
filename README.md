@@ -152,7 +152,7 @@ Subscription-specific product configuration, like available intervals and the di
 
 ### Seeing {"error": "Not found"} when installing the app
 
-If you don't request the proper scopes, the /api/auth request might fail. Check your scopes in the BigCommerce Dev Tools area. Look at the scopes listed above in the [BigCommerce setup](#bigcommerce-setup) section above.
+If you don't request the proper scopes, the /api/auth request might fail. Check your scopes in the BigCommerce Dev Tools area. Look at the scopes listed above in the [BigCommerce setup](#bigcommerce-setup) section.
 
 
 ## Learn More
