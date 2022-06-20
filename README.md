@@ -10,15 +10,43 @@
 | ---------------------------------------- | ------------------------------------- |
 | ![App Preview](sample-control-panel.png) | ![App Preview](sample-storefront.png) |
 
+## Prerequisites
+
+You will need the following:
+
+* [BigCommerce sandbox store](https://developer.bigcommerce.com/docs/ZG9jOjM4MzMyNTE-create-a-sandbox-store) (required to develop and test apps)
+* [Developer Portal Account](https://devtools.bigcommerce.com/) (required to register apps)
+* Experience using [npm](https://www.npmjs.com/)
+* Node.js 14.x
+
+## Get started
+
+1. Start by forking the subscription-foundation repository.
+2. Navigate to the root directory of your project and install npm packages.
+
+```shell
+npm install
+```
 ## Using ngrok
 
-In order for webhooks to be received, we recommend setting up [ngrok](https://developer.bigcommerce.com/docs/3ef776e175eda-big-commerce-apps-quick-start#add-and-start-ngrok) locally on your machine to create a public-facing URL that tunnels to your localhost: https://ngrok.com/
+You will need a publicly accessible URL to connect the draft app to BigCommerce. To add network access while in the development phase, you can use [ngrok](https://ngrok.com/docs), a free tool that lets you expose local servers like `localhost:3000` to the public internet over secure tunnels.
 
-After you are running the app, run the following code in the directory ngrok is located within: 
+1. In a new terminal window, install [ngrok](https://www.npmjs.com/package/ngrok#usage).
+
 ```shell
-./ngrok http localhost:3000
+npm install ngrok -g
+```
+
+2. Expose the web server on port 3000 to the internet.
+
+```shell
+ngrok http 3000
 ```
 In a later step, you will use the public-facing URL to update the environment variable `NEXT_PUBLIC_APP_URL` in the .env file.
+
+<!-- theme: info -->
+> #### Note
+> Although you can use the `ngrok` npm package without creating an account, any unauthenticated tunnels you create will expire after two hours. For the best development experience, [create a free ngrok account](https://dashboard.ngrok.com/signup), [find your ngrok authtoken](https://dashboard.ngrok.com/get-started/your-authtoken), and [add the authtoken](https://ngrok.com/docs#getting-started-authtoken) to your global `ngrok` configuration.
 
 ## BigCommerce Setup
 
@@ -81,8 +109,8 @@ To accomplish this:
    1. Remember the merchant must OAuth the same Stripe payments account (what you created first) to this app that their BigCommerce store uses.     Otherwise, the initial payment created when the shopper pays for the original order won’t be readable when creating subscriptions.
    2. When testing:
       - Make sure 'Test Mode' is set to ‘Yes’ in the merchant’s Stripe settings within BigCommerce: https://login.bigcommerce.com/deep-links/settings/payment/stripev3
-      ![stripe-settings](https://storage.googleapis.com/bigcommerce-production-dev-center/images/stripe-settings.png)
       
+      ![stripe-settings](https://storage.googleapis.com/bigcommerce-production-dev-center/images/stripe-settings.png)
       
       - A vaulted card must be used when checking out. Turn on that functionality by going to ‘Stored Credit Cards’ in the Stripe payments section in BigCommerce and toggling on ‘Enable stored credit cards with Stripe’. 
       ![stored-credit-cards](https://storage.googleapis.com/bigcommerce-production-dev-center/images/stored-credit-cards.png)
@@ -107,18 +135,7 @@ At a minimum, you need to update the following .env variables for the app to run
 
 ## Install app dependencies
 
-1. You need Node.js version 14.17.0. To check your version of Node.js, run the following command in your terminal.
-```shell
-Node -v
-```
-2. Set up a project directory.
-    1. Create a new project directory.
-    2. Navigate to the directory using the terminal.
-3. Install npm packages.
-```shell
-npm install
-```
-4. Create the DB tables and initial client. If you miss this step, you’ll see errors about Prisma missing.
+1. Create the DB tables and initial client. If you miss this step, you’ll see errors about Prisma missing.
 ```shell
 npx prisma migrate dev
 ```
@@ -126,12 +143,13 @@ npx prisma migrate dev
 
 NOTE:  This example uses SQLite as a data store. In production, we recommend using a database that has more robust concurrency support, such as PostgresSQL. For information on switching databases, see the [Replacing SQLite](#replacing-sqlite) section.
 
-5. Run app.
+2. Run app.
 
 ```shell
 npm run dev
 ```
 The app should now be installable as a draft app on your BigCommerce store.
+
 
 ## Replacing SQLite
 To replace the SQLite database, do the following:
