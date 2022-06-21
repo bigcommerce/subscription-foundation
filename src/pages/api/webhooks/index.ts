@@ -27,9 +27,9 @@ export class WebhooksController extends BaseBigCommerceController {
     _req?: NextApiRequest,
     res?: NextApiResponse
   ): Promise<NextApiResponse | void> {
-    console.log("WebhooksController :: _req.method :: ", _req.method);
     console.log("WebhooksController :: query :: ", this.query);
     console.log("WebhooksController :: body :: ", this.body);
+
     switch (_req.method ?? "") {
       /**
        * Send OK for CORS pre-flight request from the front-end widget js
@@ -74,8 +74,8 @@ export class WebhooksController extends BaseBigCommerceController {
       order_id
     );
 
-    console.log("orderCreated :: order :: ", order);
-    console.log("orderCreated :: order_products :: ", order_products);
+    console.log("BigCommerce Webhook :: Order Created :: order :: ", order);
+    console.log("BigCommerce Webhook :: Order Created :: order_products :: ", order_products);
 
     // Set BigCommere store id
     this.stripeService.setStoreId(this.store.id);
@@ -86,9 +86,7 @@ export class WebhooksController extends BaseBigCommerceController {
     // If payment hasn't gone through yet, return with no status
     // BigCommerce will try again and trigger the webhook
     if (isNullOrUndefined(order.payment_provider_id)) {
-      console.log(
-        "payment_provider_id undefined... waiting for webhook to be sent again"
-      );
+      console.log("BigCommerce Webhook :: Order Created :: Undefined order.payment_provider_id :: Waiting for webhook to be sent again");
       return;
     }
     const payment_intent = await this.stripeService.getPaymentIntent(
@@ -132,7 +130,7 @@ export class WebhooksController extends BaseBigCommerceController {
     });
 
     console.log(
-      "orderCreated :: createSubscription response :: subscription :: ",
+      "BigCommerce Webhook :: Order Created :: Stripe Create Subscription Response :: subscription :: ",
       subscription
     );
 
@@ -157,7 +155,7 @@ export class WebhooksController extends BaseBigCommerceController {
         order.customer_id
       );
     console.log(
-      "orderCreated :: subscription_id_response :: ",
+      "BigCommerce Webhook :: Order Created :: Upsert Customer Attribute Value for Stripe Subscription IDs :: ",
       subscription_id_response
     );
 
@@ -171,7 +169,7 @@ export class WebhooksController extends BaseBigCommerceController {
         order.customer_id
       );
     console.log(
-      "orderCreated  :: customer_id_response :: ",
+      "BigCommerce Webhook :: Order Created :: Upsert Customer Attribute Value for Stripe Customer ID :: ",
       customer_id_response
     );
 
