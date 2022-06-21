@@ -14,8 +14,8 @@
 
 You will need the following:
 
-* [BigCommerce sandbox store](https://developer.bigcommerce.com/docs/ZG9jOjM4MzMyNTE-create-a-sandbox-store) (required to develop and test apps)
-* [Developer Portal Account](https://devtools.bigcommerce.com/) (required to register apps)
+* [BigCommerce sandbox store](https://developer.bigcommerce.com/docs/ZG9jOjM4MzMyNTE-create-a-sandbox-store?source=subscription-foundation) (required to develop and test apps)
+* [Developer Portal Account](https://devtools.bigcommerce.com/?source=subscription-foundation) (required to register apps)
 * Experience using [npm](https://www.npmjs.com/)
 * Node.js 14.x
 
@@ -52,9 +52,9 @@ In a later step, you will use the public-facing URL to update the environment va
 
 This app gets access to the BigCommerce API by being installed on the store. You'll need two things to test out this flow:
 
-1. [Create BigCommerce store](https://developer.bigcommerce.com/docs/ZG9jOjM4MzMyNTE-create-a-sandbox-store): go to https://www.bigcommerce.com/essentials/ and signup for a free trial if you don't have one.
+1. [Create BigCommerce store](https://developer.bigcommerce.com/docs/ZG9jOjM4MzMyNTE-create-a-sandbox-store?source=subscription-foundation): go to [https://www.bigcommerce.com/essentials/](https://www.bigcommerce.com/essentials/?source=subscription-foundation) and signup for a free trial if you don't have one.
 
-2. [Create BigCommerce app](https://developer.bigcommerce.com/docs/ZG9jOjM4MzMzNzM-managing-apps-in-the-developer-portal#creating-apps): go to https://devtools.bigcommerce.com and create a draft app with the following callbacks (in the 2nd, 'Technical' step of app creation):
+2. [Create BigCommerce app](https://developer.bigcommerce.com/docs/ZG9jOjM4MzMzNzM-managing-apps-in-the-developer-portal#creating-apps?source=subscription-foundation): go to [https://devtools.bigcommerce.com](https://devtools.bigcommerce.com?source=subscription-foundation) and create a draft app with the following callbacks (in the 2nd, 'Technical' step of app creation):
 
 - Auth Callback URL: https://{ngrok_id}.ngrok.io/api/auth
 - Load Callback URL: https://{ngrok_id}.ngrok.io/api/load
@@ -172,12 +172,50 @@ Subscription-specific product configuration, like available intervals and the di
 
 If you don't request the proper scopes, the /api/auth request might fail. Check your scopes in the BigCommerce Dev Tools area. Look at the scopes listed above in the [BigCommerce setup](#bigcommerce-setup) section.
 
+## Key areas of codebase
+
+- `/backend`
+  - Where the auth and various API services live. These are uses within the internal API endpoints to keep routes secure and reach out to external APIs.
+- `/prisma`
+  - Where the DB models and initial seed data lives. Prisma uses this to generate DB clients for the app.
+- `/shared`
+  - Where the types and helper utilities are located.
+- `/src/pages`
+  - Where the sections of the app, including the UI for the BigCommerce app that will show inside the control panel, are managed.
+  - Next.js docs: https://nextjs.org/docs/basic-features/pages
+- `/src/pages/api`
+  - Where the APIs for the app are managed.
+  - Next.js docs: https://nextjs.org/docs/api-routes/introduction
+    - `/cart`, `/channel`, and `/product`: Contains endpoints that proxy to BigCommerce APIs.`
+    - `/store`: Contains endpoints that update app information in the DB.`
+    - `/stripe`: Contains endpoints that proxy to Stripe APIs.`
+    - `/webhooks/index.ts`: Contains the webhook listener for the "Order Created" BigCommerce event which is used to create the initial Stripe subscription.
+- `/src/providers`
+  - Where the context providers used within pages and components live.
+
+## Contributing
+
+Want to help expand this foundation? We'd love to collaborate! To kick off, here's a breakdown of items we've itemized as either potential improvements to the existing codebase or features worth adding.
+
+- Improvements:
+  - Implement cart metafields to improve shopper UX (removes overloading of product name)
+  - Move FE cart requests / calculations within subscription widget to be handled within single internal API endpoint
+  - Centralize logging so it's easily turned on / off and connected into third-party logging services
+- Features:
+  - Additional subscription use cases outside of 'Subscribe and Save'
+  - Handling for more complex tax and shipping scenarios, changes occurs to price after initial subscription creation
+  - Ability to see subscription information inline, within My Account -> Order section of storefront
 
 ## Learn More
 
+### Additional Subscription Solutions
+
+Check out the wide variety of subscription apps on the [BigCommerce App Marketplace](https://www.bigcommerce.com/apps/recurring-billing-subscriptions/?source=subscription-foundation).
+
+### The BigCommerce Platform
+
 Looking to help the world's leading brands and the next generation of successful merchants take flight? To learn more about developing on top of the BigCommerce platform, take a look at the following resources:
 
-- [BigCommerce Developer Center](https://developer.bigcommerce.com/) - Learn more about BigCommerce platform features, APIs and SDKs
-- [BigDesign](https://developer.bigcommerce.com/big-design/) - An interactive site for BigCommerce's React Components with live code editing
-- [Building BigCommerce Apps](https://developer.bigcommerce.com/api-docs/getting-started/building-apps-bigcommerce/building-apps) - Learn how to build apps for the BigCommerce marketplace
-
+- [BigCommerce Developer Center](https://developer.bigcommerce.com/?source=subscription-foundation) - Learn more about BigCommerce platform features, APIs and SDKs
+- [BigDesign](https://developer.bigcommerce.com/big-design/?source=subscription-foundation) - An interactive site for BigCommerce's React Components with live code editing
+- [Building BigCommerce Apps](https://developer.bigcommerce.com/api-docs/getting-started/building-apps-bigcommerce/building-apps?source=subscription-foundation) - Learn how to build apps for the BigCommerce marketplace
