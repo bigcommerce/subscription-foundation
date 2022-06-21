@@ -33,13 +33,16 @@ export default function SubscriptionEditPane(): JSX.Element {
       allowedTags: [],
       allowedAttributes: {}
     });
-    const product_request = {
+    const product_request: any = {
       name: product.name,
-      description: product_description,
       shippable: product.type == "physical" ? true : false
     };
 
-    // Update request if optional values exist
+    // Update Stripe request with additional BigCommerce product fields if they are set and not empty
+    // Product description
+    if ("" != product_description && null != product_description) {
+      product_request.description = product_description;
+    }
     // Product image
     if ("" != variant.image_url && null != variant.image_url) {
       product_request["images"] = [];
