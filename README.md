@@ -208,11 +208,11 @@ Want to help expand this foundation? We'd love to collaborate! To kick off, here
 
 ## Learn More
 
-## Additional Subscription Solutions
+### Additional Subscription Solutions
 
 Check out the wide variety of subscription apps on the [BigCommerce App Marketplace](https://www.bigcommerce.com/apps/recurring-billing-subscriptions/?source=subscription-foundation).
 
-## The BigCommerce Platform
+### The BigCommerce Platform
 
 Looking to help the world's leading brands and the next generation of successful merchants take flight? To learn more about developing on top of the BigCommerce platform, take a look at the following resources:
 
