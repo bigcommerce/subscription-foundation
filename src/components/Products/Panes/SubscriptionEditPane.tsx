@@ -235,8 +235,7 @@ export default function SubscriptionEditPane(): JSX.Element {
 
   /**
    * Maybe update Stripe price
-   * checks to see if anything in the price has changed
-   * if so, it will archive the current price and create a new one
+   * Checks to see if anything in the price has changed. If so, it will archive the current price and create a new one.
    * @param   stripe_price_id string                    Required.
    * @param   price_request   Stripe.PriceCreateParams  Required.
    * @returns stripe_price_id string
@@ -248,7 +247,7 @@ export default function SubscriptionEditPane(): JSX.Element {
     let price_change = false;
     const current_price = await getStripePrice(stripe_price_id);
 
-    //check if any fields related to the price have been updated
+    // Check if any fields related to the price have been updated
     if (
       price_request.unit_amount_decimal != current_price.unit_amount_decimal ||
       price_request.unit_amount_decimal != current_price.unit_amount_decimal ||
