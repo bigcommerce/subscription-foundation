@@ -3,6 +3,10 @@
   "author": "bigcommerce",
   "license": "MIT",
   "version": "0.9.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bigcommerce/subscription-foundation"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
