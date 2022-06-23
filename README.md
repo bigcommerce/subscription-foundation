@@ -127,7 +127,7 @@ cp .env.sample .env
 At a minimum, you need to update the following .env variables for the app to run successfully inside the BigCommerce control panel and storefront.
 
 - `NEXT_PUBLIC_APP_URL`
-  - This should be a publicly accessible URL so the BigCommerce Stripe webhooks can be recieved. See the section on [ngrok](#using-ngrok).
+  - This should be a publicly accessible URL so the BigCommerce Stripe webhooks can be received. See the section on [ngrok](#using-ngrok).
 - `NEXT_PUBLIC_APP_ID`, `BC_APP_CLIENT_ID`, and `BC_APP_SECRET`
   - Follow the [BigCommerce setup](#bigcommerce-setup) instructions to get these.
 - `STRIPE_SECRET_KEY` and `NEXT_PUBLIC_STRIPE_CLIENT_ID`
