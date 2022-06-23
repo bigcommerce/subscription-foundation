@@ -154,7 +154,7 @@ The app should now be installable as a draft app on your BigCommerce store.
 ## Replacing SQLite
 To replace the SQLite database, do the following:
 
-1. Update the `/prisma/schema.prisma` file with a `provider` other `sqlite` (i.e. `PostgreSQL`. info on options are here: https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-schema/data-sources/)
+1. Update the `/prisma/schema.prisma` file with a `provider` other than `SQLite` (i.e. `PostgreSQL`. info on options are here: https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-schema/data-sources/)
 2. Update the `DATABASE_URL` var in `/prisma/.env` to match your new DB connection string.
 3. Run `npx prisma migrate dev` (this creates tables and inserts related data as defined in `/prisma/migrations/*` into the DB).
 4. Run `npx prisma generate` (this generates a new client for the app using the new DB provider setting).
