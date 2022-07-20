@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/prebuild.mjs",
     "build": "next build",
     "start": "next start -p $PORT",
     "type-check": "tsc --pretty --noEmit",
