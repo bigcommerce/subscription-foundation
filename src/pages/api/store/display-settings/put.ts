@@ -7,6 +7,7 @@ import { DisplaySettingPayload } from "@/shared/payloads/DisplaySettingPayload";
 import HttpStatus from "http-status-codes";
 import { appContainer } from "@/shared/di-container/app";
 import { injectable } from "tsyringe";
+import { STOREFRONT_CONTENT_MODE } from "@/constants/bigcommerce";
 
 @injectable()
 export class DisplaySettingController extends BaseBigCommerceController {
@@ -24,6 +25,10 @@ export class DisplaySettingController extends BaseBigCommerceController {
       buttonBgColor,
       buttonTextColor
     } = this.body;
+
+    const inWidgetContentMode = (contentMode: string): boolean => {
+      return contentMode === "widget"
+    }
 
     // Upsert display settings for widget
     const displaySetting = await displaySettingClient.upsert({
@@ -54,7 +59,7 @@ export class DisplaySettingController extends BaseBigCommerceController {
 
     this.store.DisplaySetting = displaySetting;
 
-    if (process.env.STOREFRONT_CONTENT_MODE === "widget") {
+    if (inWidgetContentMode(STOREFRONT_CONTENT_MODE)) {
       // This mode uses the Widgets API
 
       // Create/update widget template

@@ -1,4 +1,5 @@
 import BigBaseApi from "../big-base-api";
+import { APP_URL } from "@/constants/common";
 
 export default class WebhooksApi extends BigBaseApi {
   public baseUri = "/hooks";
@@ -11,8 +12,8 @@ export default class WebhooksApi extends BigBaseApi {
    */
   public async get(hook_id?: number) {
     let request_url: string = this.baseUri;
-    if(hook_id){
-      request_url += '/'+hook_id;
+    if (hook_id) {
+      request_url += "/" + hook_id;
     }
 
     return await this.client.get(request_url);
@@ -26,24 +27,24 @@ export default class WebhooksApi extends BigBaseApi {
   public async create(scope: string) {
     const body = {
       scope: scope,
-      destination: process.env.NEXT_PUBLIC_APP_URL + this.callbackUri,
+      destination: APP_URL + this.callbackUri,
       is_active: true
-    }
+    };
 
     return await this.client.post(this.baseUri, body);
   }
 
   /**
-   * Set is_active value of specific webhook to true 
+   * Set is_active value of specific webhook to true
    * @param {number} hook_id - ID of the BigCommerce webhook to enable
    * @returns {Promise}
    */
-   public async enable(hook_id: number) {
+  public async enable(hook_id: number) {
     const body = {
       is_active: true
-    }
+    };
 
-    return await this.client.put(this.baseUri + '/' + hook_id, body);
+    return await this.client.put(this.baseUri + "/" + hook_id, body);
   }
 
   /**
@@ -51,9 +52,11 @@ export default class WebhooksApi extends BigBaseApi {
    */
   public async initAppWebhooks() {
     const webhooks = await this.get();
-    const orderCreatedScope: string = 'store/order/created';
+    const orderCreatedScope = "store/order/created";
     const existingWebhookScopes = webhooks.data.map(webhook => webhook.scope);
-    const existingOrderWebhook = webhooks.data.filter(webhook => webhook.scope === orderCreatedScope)[0];
+    const existingOrderWebhook = webhooks.data.filter(
+      webhook => webhook.scope === orderCreatedScope
+    )[0];
 
     if (existingWebhookScopes.indexOf(orderCreatedScope) === -1) {
       // If the webhook doesn't exist, create it
@@ -65,5 +68,4 @@ export default class WebhooksApi extends BigBaseApi {
       }
     }
   }
-
 }
