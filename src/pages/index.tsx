@@ -9,6 +9,7 @@ import {
   Link
 } from "@bigcommerce/big-design";
 import Head from "next/head";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 const Onboarding = (): JSX.Element => {
@@ -30,7 +31,7 @@ const Onboarding = (): JSX.Element => {
       <Flex flexDirection={{ mobile: "column", desktop: "row" }}>
         <FlexItem flexGrow={1}>
           <Box margin="medium" marginTop="xxxLarge">
-            <img src="/images/stripe-subscription-logo.svg" width={100} />
+            <Image src="/images/stripe-subscription-logo.svg" width={100} height={50} alt="" />
           </Box>
           <Box margin="medium">
             <H1>{t("title")}</H1>
@@ -58,7 +59,7 @@ const Onboarding = (): JSX.Element => {
             shadow="floating"
             style={{ maxWidth: 541, margin: "auto" }}
           >
-            <img src="/images/stripe-product-image.svg" />
+            <Image src="/images/stripe-product-image.svg"  width={541} height={512} alt="" />
           </Box>
         </FlexItem>
       </Flex>
