@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Store" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "hash" TEXT NOT NULL,
     "url" TEXT,
     "accessToken" TEXT NOT NULL,
@@ -11,18 +11,22 @@ CREATE TABLE "Store" (
     "widgetId" TEXT,
     "widgetTemplateId" TEXT,
     "widgetPlacementId" TEXT,
-    "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME
+    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+
+    PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "token" TEXT NOT NULL DEFAULT '',
+    "id" INTEGER NOT NULL,
+    "token" TEXT NOT NULL DEFAULT E'',
     "email" TEXT NOT NULL,
     "username" TEXT,
-    "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME
+    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+
+    PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -30,14 +34,12 @@ CREATE TABLE "UsersOnStores" (
     "userId" INTEGER NOT NULL,
     "storeId" INTEGER NOT NULL,
 
-    PRIMARY KEY ("userId", "storeId"),
-    FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY ("storeId") REFERENCES "Store" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY ("userId","storeId")
 );
 
 -- CreateTable
 CREATE TABLE "Stripe" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "accessToken" TEXT NOT NULL,
     "refreshToken" TEXT NOT NULL,
     "publishableKey" TEXT NOT NULL,
@@ -45,9 +47,10 @@ CREATE TABLE "Stripe" (
     "email" TEXT,
     "dashboardDisplayName" TEXT,
     "storeId" INTEGER NOT NULL,
-    "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME,
-    FOREIGN KEY ("storeId") REFERENCES "Store" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+
+    PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -55,12 +58,12 @@ CREATE TABLE "StripeProduct" (
     "id" TEXT NOT NULL,
     "priceIds" TEXT NOT NULL,
 
-    PRIMARY KEY ("id", "priceIds")
+    PRIMARY KEY ("id","priceIds")
 );
 
 -- CreateTable
 CREATE TABLE "DisplaySetting" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "widgetLabel" TEXT NOT NULL,
     "widgetBgColor" TEXT NOT NULL,
     "widgetTextColor" TEXT NOT NULL,
@@ -68,23 +71,25 @@ CREATE TABLE "DisplaySetting" (
     "buttonBgColor" TEXT NOT NULL,
     "buttonTextColor" TEXT NOT NULL,
     "storeId" INTEGER NOT NULL,
-    "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME,
-    FOREIGN KEY ("storeId") REFERENCES "Store" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+
+    PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "StoreSetting" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "location" TEXT DEFAULT '',
+    "id" SERIAL NOT NULL,
+    "location" TEXT DEFAULT E'',
     "importData" BOOLEAN DEFAULT false,
     "includeDesc" BOOLEAN DEFAULT false,
     "includeImg" BOOLEAN DEFAULT false,
     "keepLevels" BOOLEAN DEFAULT false,
-    "createdAt" DATETIME DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME,
+    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
     "storeId" INTEGER NOT NULL,
-    FOREIGN KEY ("storeId") REFERENCES "Store" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+
+    PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -101,3 +106,18 @@ CREATE UNIQUE INDEX "DisplaySetting.storeId_unique" ON "DisplaySetting"("storeId
 
 -- CreateIndex
 CREATE UNIQUE INDEX "StoreSetting.storeId_unique" ON "StoreSetting"("storeId");
+
+-- AddForeignKey
+ALTER TABLE "UsersOnStores" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UsersOnStores" ADD FOREIGN KEY ("storeId") REFERENCES "Store"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Stripe" ADD FOREIGN KEY ("storeId") REFERENCES "Store"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "DisplaySetting" ADD FOREIGN KEY ("storeId") REFERENCES "Store"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "StoreSetting" ADD FOREIGN KEY ("storeId") REFERENCES "Store"("id") ON DELETE CASCADE ON UPDATE CASCADE;
