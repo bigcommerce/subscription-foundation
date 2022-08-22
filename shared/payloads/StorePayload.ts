@@ -9,6 +9,8 @@ export class StorePayload implements BodyRequest {
   id?: number;
   hash?: string;
   url?: string;
+  customerAttributeFieldId?: number;
+  subscriptionsAttributeFieldId?: number;
   stripe?: StripePayload;
   storeSetting: StoreSettingPayload;
   users?: UserPayload[];
