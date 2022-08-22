@@ -11,6 +11,7 @@ import useStripe from "@/frontend/providers/BigStoreProvider/modules/useStripe";
 import styled from "styled-components";
 import AsyncButton from "../Base/AsyncButton";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 const FlexItem = styled.div`
   margin-left: auto;
@@ -31,7 +32,7 @@ export default function StripeConnect(props): JSX.Element {
   return (
     <Panel>
       <PanelHeader>
-        <img src="/images/stripe-subscription-logo.svg" />
+        <Image src="/images/stripe-subscription-logo.svg" width={100} height={50} style={{ marginRight: "1rem" }} alt="" />
         {connected ? (
           <>
             <Badge label={t("badgeLabel")} variant="success" />

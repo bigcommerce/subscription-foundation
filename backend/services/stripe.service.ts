@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import dotenv from "dotenv";
 import { stripeClient } from "@/backend/prisma";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 import { singleton } from "tsyringe";
 
 dotenv.config();
@@ -19,14 +19,13 @@ export class StripeService {
   //#region Public Methods
 
   /**
-   * Initalize Stripe 
-   * @param authorizeMerchant boolean  Optional. If true, auths Stripe with merchant token 
+   * Initalize Stripe
+   * @param authorizeMerchant boolean  Optional. If true, auths Stripe with merchant token
    */
-  public async initStripe(authorizeMerchant:boolean): Promise<void> {
-
+  public async initStripe(authorizeMerchant: boolean): Promise<void> {
     // Set Prisma Stripe client
     this.stripeClient = stripeClient;
-    
+
     if (authorizeMerchant) {
       const merchant_id = await this.getMerchantId();
 
@@ -41,13 +40,12 @@ export class StripeService {
         apiVersion: null
       });
     }
-
   }
-  
+
   /**
    * Connect to Stripe
    * @param code string  Required. Stripe authorization code
-   * @returns 
+   * @returns
    */
   public async connectAccount(code: string): Promise<Stripe.OAuthToken> {
     const tokenResponse = await this.stripe.oauth.token({
@@ -55,30 +53,33 @@ export class StripeService {
       code
     });
     return tokenResponse;
-  };
+  }
 
   /**
    * Set BigCommerce Store ID
    * @param store_id number  Required.
    */
-  public setStoreId(store_id:number) {
+  public setStoreId(store_id: number) {
     this.store_id = store_id;
   }
 
-  public async createCustomer(params:Stripe.CustomerCreateParams): Promise<Stripe.Response<Stripe.Customer>> {
+  public async createCustomer(
+    params: Stripe.CustomerCreateParams
+  ): Promise<Stripe.Response<Stripe.Customer>> {
     return await this.stripe.customers.create(params, {
-      idempotencyKey: uuid()
+      idempotencyKey: uuidv4()
     });
-  
   }
 
-  public async createPaymentMethod(params:Stripe.PaymentMethodCreateParams): Promise<Stripe.Response<Stripe.PaymentMethod>> {
+  public async createPaymentMethod(
+    params: Stripe.PaymentMethodCreateParams
+  ): Promise<Stripe.Response<Stripe.PaymentMethod>> {
     return await this.stripe.paymentMethods.create(params, {
-      idempotencyKey: uuid()
+      idempotencyKey: uuidv4()
     });
   }
 
-  public async getPaymentIntent(id:string) {
+  public async getPaymentIntent(id: string) {
     return await this.stripe.paymentIntents.retrieve(id);
   }
 
@@ -88,7 +89,9 @@ export class StripeService {
    * @param   customer_id          Stripe.SubscriptionCreateParams  Required. Stripe subscription create parameters
    * @returns Stripe.Subscription
    */
-  public async createSubscription(params: Stripe.SubscriptionCreateParams): Promise<Stripe.Response<Stripe.Subscription>> {
+  public async createSubscription(
+    params: Stripe.SubscriptionCreateParams
+  ): Promise<Stripe.Response<Stripe.Subscription>> {
     return await this.stripe.subscriptions.create(params);
   }
 
@@ -99,13 +102,13 @@ export class StripeService {
   /**
    * Get Stripe merchant id
    **/
-   private async getMerchantId(): Promise<string> {
+  private async getMerchantId(): Promise<string> {
     const merchantStripeResponse = await this.stripeClient.findUnique({
       where: {
-          storeId: this.store_id
+        storeId: this.store_id
       },
       select: {
-          stripeUserId: true
+        stripeUserId: true
       }
     });
     return merchantStripeResponse.stripeUserId;

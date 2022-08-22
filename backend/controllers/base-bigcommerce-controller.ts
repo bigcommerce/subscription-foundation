@@ -3,8 +3,8 @@ import { BigApi } from "../services/bigcommerce";
 import { NextApiRequest } from "@/types/next";
 import { NextApiResponse } from "next";
 import { setCookieOnBackend } from "@/frontend/utils/cookies";
-import { BC_APP_ID } from "@/constants/common";
 import {
+  BC_APP_ID,
   BC_APP_CLIENT_ID,
   BC_APP_SECRET,
   BC_APP_CALLBACK_URL,
@@ -51,9 +51,9 @@ export abstract class BaseBigCommerceController extends AuthApiController {
    * @param  api_version  string - Version of the BigCommerce API to use (v2 or v3)
    */
   public initBigApi(
-    api_version: string = "v3",
-    response_type: string = "json",
-    log_level: string = "info"
+    api_version = "v3",
+    response_type = "json",
+    log_level = "info"
   ) {
     this.BigCommerceClient = new BigCommerce({
       logLevel: log_level,

@@ -9,7 +9,7 @@ import Stripe from "stripe";
 import HttpStatus from "http-status-codes";
 import HttpError from "@/backend/exceptions/http-error";
 import { isNullOrUndefined } from "@/shared/utils/isNullOrUndefined";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 
 @injectable()
 export class StripeProductPriceController extends BaseStripeController {
@@ -72,7 +72,7 @@ export class StripeProductPriceController extends BaseStripeController {
     res?: NextApiResponse
   ): Promise<NextApiResponse | void> {
     this.response = await this.stripeService.stripe.prices.create(this.body, {
-      idempotencyKey: uuid()
+      idempotencyKey: uuidv4()
     });
     if (isNullOrUndefined(this.response)) {
       throw new HttpError(

@@ -13,7 +13,7 @@ import PageLayout from "../Base/PageLayout";
 import alertManager from "@/frontend/libs/alerts";
 import { useBigStore } from "../../providers/BigStoreProvider/context";
 import { useTranslations } from "next-intl";
-import { BC_APP_ID } from "@/constants/common";
+import { BC_APP_ID } from "@/constants/bigcommerce";
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   const messages = await import(`/src/locales/${locale}.json`);

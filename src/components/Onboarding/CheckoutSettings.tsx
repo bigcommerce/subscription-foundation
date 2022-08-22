@@ -13,6 +13,7 @@ import {
   Text,
   Textarea
 } from "@bigcommerce/big-design";
+import { APP_URL } from "@/constants/common";
 import { useBigStore } from "../../providers/BigStoreProvider/context";
 import { useTranslations } from "next-intl";
 
@@ -73,7 +74,7 @@ fetch('/graphql', {
     email
     entityId
     attributes {
-        stripe_customer_id: attribute(entityId:1) {
+        stripe_customer_id: attribute(entityId:{{customerAttributeFieldId}}) {
             entityId
             value
       }
@@ -86,7 +87,7 @@ then(json => {
     var node = document.createElement("li");
     node.classList.add('navBar-item');
     node.innerHTML = 
-        '<form method="POST" id="manageSubscriptionForm" action="${process.env.NEXT_PUBLIC_APP_URL}/api/stripe/create-customer-portal-session">' + 
+        '<form method="POST" id="manageSubscriptionForm" action="${APP_URL}/api/stripe/create-customer-portal-session">' + 
         '<button class="navBar-action" type="submit">Manage Subscriptions</button>' +
         '</form>';
     document.getElementsByClassName('navBar-section')[0].appendChild(node);
@@ -114,6 +115,20 @@ then(json => {
       }
     }
   ];
+
+  const DynamicTextArea = ({ step, customerAttributeFieldId }) => { 
+    let code = step.code.content;
+    code = code.replace('{{customerAttributeFieldId}}', customerAttributeFieldId);
+    
+    return (
+      <Textarea
+        placeholder="< code >"
+        rows={step.code.size === "small" ? 3 : 7}
+        resize={true}
+        defaultValue={code}
+      />
+    )
+  }
 
   const StepNumber = ({ step }) => (
     <Box
@@ -173,12 +188,7 @@ then(json => {
                 <Box marginTop="medium">
                   <Form fullWidth={true}>
                     <FormGroup>
-                      <Textarea
-                        placeholder="< code >"
-                        rows={step.code.size === "small" ? 3 : 7}
-                        resize={true}
-                        defaultValue={step.code.content}
-                      />
+                      <DynamicTextArea step={step} customerAttributeFieldId={store.customerAttributeFieldId} />
                     </FormGroup>
                   </Form>
                 </Box>
