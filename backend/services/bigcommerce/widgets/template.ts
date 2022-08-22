@@ -10,7 +10,7 @@ export default class WidgetTemplateApi extends BigBaseApi {
   public baseUri = "/content/widget-templates";
 
   public getTemplate() {
-    let content = fs.readFileSync(
+    const content = fs.readFileSync(
       `${process.cwd()}/src/templates/subscribe-and-save-widget.hbs`,
       "utf8"
     );
@@ -23,8 +23,8 @@ export default class WidgetTemplateApi extends BigBaseApi {
    * @returns response
    */
   public async create() {
-    var template_data = this.getTemplate();
-    var response = await this.client.post(this.baseUri, {
+    const template_data = this.getTemplate();
+    const response = await this.client.post(this.baseUri, {
       name: "Subscription Widget Template",
       storefront_api_query: `query Product($productId: Int) { site { product(entityId: $productId) { variants { edges { node { metafields( namespace: "${SUBSCRIPTION_METAFIELD_NAMESPACE}", keys: ["${SUBSCRIPTION_METAFIELD_KEY}"] ) { edges { node { key value } } } } } } } } }`,
       schema: [
@@ -80,9 +80,9 @@ export default class WidgetTemplateApi extends BigBaseApi {
    * @returns response
    */
   public async update(uuid: string) {
-    var template_data = this.getTemplate();
+    const template_data = this.getTemplate();
 
-    var response = await this.client.put(`${this.baseUri}/${uuid}`, {
+    const response = await this.client.put(`${this.baseUri}/${uuid}`, {
       name: "Subscription Widget",
       template: template_data,
       create_new_version: false

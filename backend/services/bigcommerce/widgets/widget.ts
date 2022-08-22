@@ -3,6 +3,7 @@ import {
   SUBSCRIPTION_METAFIELD_KEY,
   SUBSCRIPTION_METAFIELD_NAMESPACE
 } from "@/shared/constants/bigcommerce";
+import { APP_URL } from "@/constants/common";
 import BigBaseApi from "../big-base-api";
 
 export default class WidgetApi extends BigBaseApi {
@@ -24,7 +25,7 @@ export default class WidgetApi extends BigBaseApi {
     const displaySetting = store.DisplaySetting;
 
     const widget_config = {
-      appUrl: process.env.NEXT_PUBLIC_APP_URL,
+      appUrl: APP_URL,
       apiToken: store.storefrontToken,
       subscriptionMetafieldNamespace: SUBSCRIPTION_METAFIELD_NAMESPACE,
       subscriptionMetafieldKey: SUBSCRIPTION_METAFIELD_KEY,
@@ -63,7 +64,7 @@ export default class WidgetApi extends BigBaseApi {
     const displaySetting = store.DisplaySetting;
 
     const widget_config = {
-      appUrl: process.env.NEXT_PUBLIC_APP_URL,
+      appUrl: APP_URL,
       apiToken: store.storefrontToken,
       subscriptionMetafieldNamespace: SUBSCRIPTION_METAFIELD_NAMESPACE,
       subscriptionMetafieldKey: SUBSCRIPTION_METAFIELD_KEY,

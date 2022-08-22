@@ -4,6 +4,7 @@ import {
   SUBSCRIPTION_METAFIELD_KEY,
   SUBSCRIPTION_METAFIELD_NAMESPACE
 } from "@/shared/constants/bigcommerce";
+import { APP_URL } from "@/constants/common";
 import BigBaseApi from "../big-base-api";
 
 const SubscriptWidgetScriptName = "Subscription Widget Script";
@@ -24,7 +25,7 @@ export default class ScriptsApi extends BigBaseApi {
 
     const templateData = {
       ...store.DisplaySetting,
-      appUrl: process.env.NEXT_PUBLIC_APP_URL,
+      appUrl: APP_URL,
       apiToken: store.storefrontToken,
       subscriptionMetafieldNamespace: SUBSCRIPTION_METAFIELD_NAMESPACE,
       subscriptionMetafieldKey: SUBSCRIPTION_METAFIELD_KEY
@@ -33,7 +34,7 @@ export default class ScriptsApi extends BigBaseApi {
     // Replace Handlebar variables in template, since we want to be able to reuse between Widgets and Scripts
     // (Widgets store custom config variables which are replaced as they are rendered, while Scripts support Stencil objects only)
     for (const key in templateData) {
-      let re = new RegExp(`{{${key}}}`, 'g');
+      const re = new RegExp(`{{${key}}}`, "g");
       content = content.replace(re, templateData[key]);
     }
 

@@ -5,8 +5,7 @@ import { BaseBigCommerceController } from "@/backend/controllers/base-bigcommerc
 import { setCookieOnBackend } from "@/frontend/utils/cookies";
 import { appContainer } from "@/shared/di-container/app";
 import { injectable } from "tsyringe";
-import { BC_APP_ID } from "@/constants/common";
-import { SUBSCRIPTION_CHANNEL_NAME } from "@/shared/constants/bigcommerce";
+import { BC_APP_ID, SUBSCRIPTION_CHANNEL_NAME } from "@/shared/constants/bigcommerce";
 import ChannelPayload from "@/shared/types/big-commerce/ChannelPayload";
 
 @injectable()
