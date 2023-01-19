@@ -25,6 +25,9 @@ export abstract class BaseBigCommerceController extends AuthApiController {
 
   constructor() {
     super();
+    console.log("BC_APP_CLIENT_ID", BC_APP_CLIENT_ID);
+    console.log("BC_APP_SECRET", BC_APP_SECRET);
+    console.log("BC_APP_CALLBACK_URL", BC_APP_CALLBACK_URL);
     this.BigCommerceClient = new BigCommerce({
       logLevel: "info",
       accessToken: null,
