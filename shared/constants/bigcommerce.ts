@@ -1,6 +1,7 @@
 import { APP_URL } from "@/constants/common";
 
 // BigCommerce App Details
+process.env.NEXT_PUBLIC_BC_APP_ID = "44627";
 export const BC_APP_ID = parseInt(process.env.NEXT_PUBLIC_BC_APP_ID);
 export const BC_APP_CLIENT_ID = process.env.BC_APP_CLIENT_ID;
 export const BC_APP_SECRET = process.env.BC_APP_SECRET;
