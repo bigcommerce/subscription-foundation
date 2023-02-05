@@ -168,7 +168,7 @@ function bindElements() {
       var $selected_sub_option = document.querySelector('input[name="sub_option[]"]:checked');
       var product_name = document.querySelector('h1.productView-title').innerText;
 
-      var list_price = parseFloat(($selected_sub_option.dataset.calculatedPrice / 100).toFixed(2));
+      var list_price = 99.00;
 
       // Add loading animation to subscribe button
       e.target.classList.add('activeLoading');
@@ -177,14 +177,14 @@ function bindElements() {
         quantity: 1,
         product_id: productId,
         list_price: list_price,
-        name: 'Subscription:' + product_name,
+        name: 'Membership - Monthly',
       });
 
       new_cart.line_items.push({
         quantity: 1,
         product_id: productId,
         list_price: list_price,
-        name: 'Subscription:' + product_name + ' :' + $selected_sub_option.value,
+        name: 'Membership - Monthly',
       });
 
       if (typeof (cart.id) === 'undefined') {
