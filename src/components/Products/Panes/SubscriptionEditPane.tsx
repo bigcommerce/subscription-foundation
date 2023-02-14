@@ -226,11 +226,14 @@ export default function SubscriptionEditPane(): JSX.Element {
    */
   const getStripePrice = async (stripe_price_id: string): Promise<any> => {
     try {
+      console.log("stripe_price_id", stripe_price_id);
       const response = await axios.get<void, any>(
         `/api/stripe/price/${stripe_price_id}`
       );
+      console.log("price from stripe----->", response);
       return response.data;
     } catch (error) {
+      console.log("error while getting price", error);
       errorHandler(error);
     }
   };
