@@ -14,6 +14,8 @@ import { useTranslations } from "next-intl";
 import sanitizeHtml from "sanitize-html";
 import Stripe from "stripe";
 import { isNullOrUndefined } from "@/shared/utils/isNullOrUndefined";
+import { FrequencyType } from "@/shared/enums/FrequencyType";
+import { DiscountUnitType } from "@/shared/enums/DiscountUnitType";
 
 export default function SubscriptionEditPane(): JSX.Element {
   const t = useTranslations("SubscriptionEditPane");
@@ -302,6 +304,7 @@ export default function SubscriptionEditPane(): JSX.Element {
         }
       );
     } catch (error) {
+      console.log("error while updating subscriptions------>", error);
       errorHandler(error);
     }
   };
@@ -346,10 +349,23 @@ export default function SubscriptionEditPane(): JSX.Element {
         stripe_product_id,
         metadata
       );
-
+      console.log("saving subscription------>", variant.sub_config.options);
       // Update sub_config options before save
-      variant.sub_config.options = subscription_options;
+      variant.sub_config.options = [
+        ...subscription_options,
+        {
+          id: "e33dbe42-6438-4981-a488-c56573dc9a02",
+          stripe_price_id: "price_1MbI4hEr4p5zg8WU6QjxBYPO",
+          frequency: 6,
+          type: FrequencyType.Months,
+          discount: 0,
+          unit: DiscountUnitType.Percent,
+          calculated_price_decimal: "9900"
+        }
+      ];
     }
+
+    console.log("saving subscription 123------>", variant.sub_config.options);
 
     // Archive prices
     if (variant.sub_config.archive_stripe_price_ids.length) {
