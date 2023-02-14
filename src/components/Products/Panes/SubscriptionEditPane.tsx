@@ -360,27 +360,27 @@ export default function SubscriptionEditPane(): JSX.Element {
         metadata
       );
       console.log("saving subscription------>", variant.sub_config.options);
-      const subscription_options_contains_monthly_subscription =
-        subscription_options.find(
-          option => option.stripe_price_id === "price_1MbI4hEr4p5zg8WU6QjxBYPO"
-        );
-      // Update sub_config options before save
-      if (!subscription_options_contains_monthly_subscription) {
-        variant.sub_config.options = [
-          ...subscription_options,
-          {
-            id: "e33dbe42-6438-4981-a488-c56573dc9a02",
-            stripe_price_id: "price_1MbI4hEr4p5zg8WU6QjxBYPO",
-            frequency: 6,
-            type: FrequencyType.Months,
-            discount: 0,
-            unit: DiscountUnitType.Percent,
-            calculated_price_decimal: "9900"
-          }
-        ];
-      } else {
-        variant.sub_config.options = subscription_options;
-      }
+      // const subscription_options_contains_monthly_subscription =
+      //   subscription_options.find(
+      //     option => option.stripe_price_id === "price_1MbI4hEr4p5zg8WU6QjxBYPO"
+      //   );
+      // // Update sub_config options before save
+      // if (!subscription_options_contains_monthly_subscription) {
+      //   variant.sub_config.options = [
+      //     ...subscription_options,
+      //     {
+      //       id: "e33dbe42-6438-4981-a488-c56573dc9a02",
+      //       stripe_price_id: "price_1MbI4hEr4p5zg8WU6QjxBYPO",
+      //       frequency: 6,
+      //       type: FrequencyType.Months,
+      //       discount: 0,
+      //       unit: DiscountUnitType.Percent,
+      //       calculated_price_decimal: "9900"
+      //     }
+      //   ];
+      // } else {
+      variant.sub_config.options = subscription_options;
+      //}
     }
 
     console.log("saving subscription 123------>", variant.sub_config.options);
