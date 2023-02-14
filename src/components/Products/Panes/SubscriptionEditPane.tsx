@@ -247,48 +247,54 @@ export default function SubscriptionEditPane(): JSX.Element {
     price_request: Stripe.PriceCreateParams
   ): Promise<any> => {
     let price_change = false;
-    const current_price = await getStripePrice(stripe_price_id);
+    try {
+      const current_price = await getStripePrice(stripe_price_id);
 
-    // Check if any fields related to the price have been updated
-    if (
-      price_request.unit_amount_decimal != current_price.unit_amount_decimal ||
-      price_request.unit_amount_decimal != current_price.unit_amount_decimal ||
-      price_request.recurring.interval != current_price.recurring.interval ||
-      price_request.recurring.interval_count !=
-        current_price.recurring.interval_count ||
-      price_request.metadata.product_type !=
-        current_price.metadata.product_type ||
-      price_request.metadata.bc_sku != current_price.metadata.bc_sku
-    ) {
-      price_change = true;
-    }
+      // Check if any fields related to the price have been updated
+      if (
+        price_request.unit_amount_decimal !=
+          current_price.unit_amount_decimal ||
+        price_request.unit_amount_decimal !=
+          current_price.unit_amount_decimal ||
+        price_request.recurring.interval != current_price.recurring.interval ||
+        price_request.recurring.interval_count !=
+          current_price.recurring.interval_count ||
+        price_request.metadata.product_type !=
+          current_price.metadata.product_type ||
+        price_request.metadata.bc_sku != current_price.metadata.bc_sku
+      ) {
+        price_change = true;
+      }
 
-    if ("variation" == price_request.metadata.product_type) {
-      for (const key in price_request.metadata) {
-        if (key.indexOf("attribute_") != -1) {
-          const label: string | number = price_request.metadata[key];
+      if ("variation" == price_request.metadata.product_type) {
+        for (const key in price_request.metadata) {
+          if (key.indexOf("attribute_") != -1) {
+            const label: string | number = price_request.metadata[key];
 
-          if (key in current_price.metadata) {
-            if (label != current_price.metadata[key]) {
+            if (key in current_price.metadata) {
+              if (label != current_price.metadata[key]) {
+                price_change = true;
+              }
+            } else {
               price_change = true;
             }
-          } else {
-            price_change = true;
           }
         }
       }
+
+      if (price_change) {
+        // Archive stripe price
+        const archived_price = await archiveStripePrice(stripe_price_id);
+
+        console.log("archived_price :: ", archived_price);
+
+        return await createStripePrice(price_request);
+      }
+
+      return stripe_price_id;
+    } catch (err) {
+      console.log("error while updating price ------>", err);
     }
-
-    if (price_change) {
-      // Archive stripe price
-      const archived_price = await archiveStripePrice(stripe_price_id);
-
-      console.log("archived_price :: ", archived_price);
-
-      return await createStripePrice(price_request);
-    }
-
-    return stripe_price_id;
   };
 
   /**
