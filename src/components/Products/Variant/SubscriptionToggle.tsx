@@ -18,6 +18,7 @@ const SubscriptionToggle = ({
     try {
       variant.sub_config.is_enabled = v;
       const updatedProduct = getProduct(variant);
+      console.log("api caliing from 2");
       await axios.put(`/api/product/variant/subscription/${variant.id}`, {
         subConfig: updatedProduct.sub_config,
         variant

@@ -296,6 +296,7 @@ export default function SubscriptionEditPane(): JSX.Element {
    */
   const updateSubOptions = async () => {
     try {
+      console.log("aou calling from 1");
       await axios.put<SubConfigRequest, any>(
         `/api/product/variant/subscription/${variant.id}`,
         {
