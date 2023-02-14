@@ -14,8 +14,8 @@ import { useTranslations } from "next-intl";
 import sanitizeHtml from "sanitize-html";
 import Stripe from "stripe";
 import { isNullOrUndefined } from "@/shared/utils/isNullOrUndefined";
-import { FrequencyType } from "@/shared/enums/FrequencyType";
-import { DiscountUnitType } from "@/shared/enums/DiscountUnitType";
+// import { FrequencyType } from "@/shared/enums/FrequencyType";
+// import { DiscountUnitType } from "@/shared/enums/DiscountUnitType";
 
 export default function SubscriptionEditPane(): JSX.Element {
   const t = useTranslations("SubscriptionEditPane");
