@@ -28,8 +28,13 @@ export class StripeProductController extends BaseStripeController {
     await this.stripeService.initStripe(true);
 
     if ("create" == this.query.id) {
+      console.log("creating stripe product");
       this.body = <Stripe.ProductCreateParams>this.body;
-      await this.createStripeProduct(_req, res);
+      const test_product = await this.stripeService.stripe.products.retrieve(
+        "prod_NM04wl3ls1KgSm"
+      );
+      console.log("test product ------->", test_product);
+      // await this.createStripeProduct(_req, res);
     } else {
       this.body = <Stripe.ProductUpdateParams>this.body;
       await this.updateStripeProduct(_req, res);

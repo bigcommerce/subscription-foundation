@@ -306,13 +306,13 @@ export default function SubscriptionEditPane(): JSX.Element {
   const updateSubOptions = async () => {
     try {
       console.log("aou calling from 1");
-      await axios.put<SubConfigRequest, any>(
-        `/api/product/variant/subscription/${variant.id}`,
-        {
-          subConfig: product.sub_config,
-          variant
-        }
-      );
+      // await axios.put<SubConfigRequest, any>(
+      //   `/api/product/variant/subscription/${variant.id}`,
+      //   {
+      //     subConfig: product.sub_config,
+      //     variant
+      //   }
+      // );
     } catch (error) {
       console.log("error while updating subscriptions------>", error);
       errorHandler(error);

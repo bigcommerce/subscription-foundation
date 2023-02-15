@@ -33,8 +33,9 @@ export class StripeProductPriceController extends BaseStripeController {
         break;
       case RequestType.POST:
         if ("create" == this.query.id) {
+          console.log("creating stripe price");
           this.body = <Stripe.PriceCreateParams>this.body;
-          this.createStripePrice(_req, res);
+          // this.createStripePrice(_req, res);
         } else {
           this.body = <Stripe.PriceUpdateParams>this.body;
           this.updateStripePrice(_req, res);
