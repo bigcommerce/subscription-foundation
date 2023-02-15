@@ -167,24 +167,33 @@ function bindElements() {
       var $selected_sub_option = document.querySelector('input[name="sub_option[]"]:checked');
       var product_name = document.querySelector('h1.productView-title').innerText;
 
-      var list_price = parseFloat(($selected_sub_option.dataset.calculatedPrice / 100).toFixed(2));
+      // var list_price = parseFloat(($selected_sub_option.dataset.calculatedPrice / 100).toFixed(2));
 
       // Add loading animation to subscribe button
       e.target.classList.add('activeLoading');
+      alert(12222);
+      var $all_subscriptions = document.querySelectorAll('input[name="sub_option[]"]');
+      console.log('all_subscriptions ---------->', $all_subscriptions);
+      for (var subscription of $all_subscriptions) {
+        console.log('list_price ------->', list_price);
+        var list_price = parseFloat((subscription.dataset.calculatedPrice / 100).toFixed(2));
+        storefront_cart.line_items.push({
+          quantity: 1,
+          product_id: productId,
+          list_price: list_price,
+          name: 'Subscription:' + product_name,
+        });
+        new_cart.line_items.push({
+          quantity: 1,
+          product_id: productId,
+          list_price: list_price,
+          name: 'Subscription:' + product_name + ' :' + $selected_sub_option.value,
+        });
+      }
 
-      storefront_cart.line_items.push({
-        quantity: 1,
-        product_id: productId,
-        list_price: list_price,
-        name: 'Subscription:' + product_name,
-      });
-
-      new_cart.line_items.push({
-        quantity: 1,
-        product_id: productId,
-        list_price: list_price,
-        name: 'Subscription:' + product_name + ' :' + $selected_sub_option.value,
-      });
+      console.log('storefront_cart --------->', storefront_cart);
+      console.log('new_cart ------------>', new_cart);
+      
 
       if (typeof (cart.id) === 'undefined') {
         // Create storefront mock cart to get cart id
@@ -198,8 +207,11 @@ function bindElements() {
       } else {
         cartItemResponse = await addCartItems(cart.id, new_cart);
       }
-
+      
+      console.log('cartItemResponse.data -------->', cartItemResponse.data);
+      console.log('typeof (cartItemResponse.data) ------->', typeof (cartItemResponse.data));
       if (typeof (cartItemResponse.data) !== 'undefined') {
+        alert(628638263);
         // window.location.href = '/cart';
       } else {
         console.error('Error occurred adding subscription to the cart :: ', cartItemResponse);
