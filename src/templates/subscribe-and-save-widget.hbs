@@ -1,6 +1,6 @@
 <script>
 var siteUrl = window.location.protocol + '//' + window.location.hostname;
-var productId = 140;
+var productId = parseInt(document.querySelector('.form input[name="product_id"]').value);
 var productSkuNode = document.querySelector('.productView-info-value[data-product-sku]');
 var productSku = productSkuNode.textContent;
 var isProductVariation = document.querySelector("div[data-product-option-change]");
@@ -181,13 +181,13 @@ function bindElements() {
           quantity: 1,
           product_id: productId,
           list_price: list_price,
-          name: 'Subscription:' + product_name,
+          name: 'Montly Subscription',
         });
         new_cart.line_items.push({
           quantity: 1,
           product_id: productId,
           list_price: list_price,
-          name: 'Subscription:' + product_name + ' :' + $selected_sub_option.value,
+          name: product_name + ' :' + list_price,
         });
       }
 
