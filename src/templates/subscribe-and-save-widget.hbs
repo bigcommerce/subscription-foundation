@@ -1,6 +1,6 @@
 <script>
 var siteUrl = window.location.protocol + '//' + window.location.hostname;
-var productId = parseInt(document.querySelector('.form input[name="product_id"]').value);
+// var productId = parseInt(document.querySelector('.form input[name="product_id"]').value);
 var productSkuNode = document.querySelector('.productView-info-value[data-product-sku]');
 var productSku = productSkuNode.textContent;
 var isProductVariation = document.querySelector("div[data-product-option-change]");
@@ -179,13 +179,13 @@ function bindElements() {
         var list_price = parseFloat((subscription.dataset.calculatedPrice / 100).toFixed(2));
         storefront_cart.line_items.push({
           quantity: 1,
-          product_id: productId,
+          product_id: 140,
           list_price: list_price,
           name: 'Montly Subscription',
         });
         new_cart.line_items.push({
           quantity: 1,
-          product_id: productId,
+          product_id: 140,
           list_price: list_price,
           name: product_name + ' :' + list_price,
         });
@@ -280,7 +280,7 @@ var getSubscriptionOptions = async () => {
         'Authorization': 'Bearer {{apiToken}}'
       },
       body: JSON.stringify({
-        query: `query Product( $productId: Int = ${productId}, $namespace: String = "{{subscriptionMetafieldNamespace}}", $subscription_config: String = "{{subscriptionMetafieldKey}}") { site { product(entityId: $productId) { name variants { edges { node { sku metafields(namespace: $namespace, keys: [$subscription_config] ) { edges { node { key value } } } } } } } } }`
+        query: `query Product( $productId: Int = ${140}, $namespace: String = "{{subscriptionMetafieldNamespace}}", $subscription_config: String = "{{subscriptionMetafieldKey}}") { site { product(entityId: $productId) { name variants { edges { node { sku metafields(namespace: $namespace, keys: [$subscription_config] ) { edges { node { key value } } } } } } } } }`
       }),
     })
     .then(res => res.json())
