@@ -377,7 +377,7 @@ export default function SubscriptionEditPane(): JSX.Element {
                 type: FrequencyType.Months,
                 discount: 0,
                 unit: DiscountUnitType.Percent,
-                calculated_price_decimal: "9900"
+                calculated_price_decimal: "5900"
               }
             ],
             archive_stripe_price_ids: [],
