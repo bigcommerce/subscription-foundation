@@ -3,7 +3,7 @@ import { axios } from "@/frontend/libs";
 import alertManager from "@/frontend/libs/alerts";
 import { errorHandler } from "@/shared/handlers/errorHandler";
 import useVariant from "@/frontend/providers/ProductProvider/modules/useVariant";
-// import SubConfigRequest from "@/shared/payloads/subscription/SubConfigRequest";
+import SubConfigRequest from "@/shared/payloads/subscription/SubConfigRequest";
 import SubscriptionOptionPayload from "@/shared/payloads/subscription/SubscriptionOptionPayload";
 import { Button } from "@bigcommerce/big-design";
 import AsyncButton from "../../Base/AsyncButton";
@@ -306,18 +306,37 @@ export default function SubscriptionEditPane(): JSX.Element {
   const updateSubOptions = async () => {
     try {
       console.log("aou calling from 1");
-      // await axios.put<SubConfigRequest, any>(
-      //   `/api/product/variant/subscription/${variant.id}`,
-      //   {
-      //     subConfig: product.sub_config,
-      //     variant
-      //   }
-      // );
+      await axios.put<SubConfigRequest, any>(
+        `/api/product/variant/subscription/${variant.id}`,
+        {
+          subConfig: product.sub_config,
+          variant
+        }
+      );
     } catch (error) {
       console.log("error while updating subscriptions------>", error);
       errorHandler(error);
     }
   };
+
+  // const saveOptionsNew = async () => {
+  //   try {
+  //     console.log("api calling from new method");
+  //     const request: SubConfigRequest = {
+  //       subConfig: {
+  //         stripe_product_id: 'prod_NM04wl3ls1KgSm',
+  //         is_enabled: true,
+  //       }
+  //     };
+  //     await axios.put<SubConfigRequest, any>(
+  //       `/api/product/variant/subscription/${variant.id}`,
+  //       request
+  //     );
+  //   } catch (error) {
+  //     console.log("error while updating subscriptions------>", error);
+  //     errorHandler(error);
+  //   }
+  // };
 
   /**
    * Save Subscription Options

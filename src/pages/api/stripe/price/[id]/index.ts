@@ -26,7 +26,7 @@ export class StripeProductPriceController extends BaseStripeController {
 
     // init stripe with merchant token
     await this.stripeService.initStripe(true);
-
+    console.log("creating stripe price 2");
     switch (_req.method ?? "") {
       case RequestType.GET:
         await this.getStripePrice(_req, res);
@@ -35,7 +35,7 @@ export class StripeProductPriceController extends BaseStripeController {
         if ("create" == this.query.id) {
           console.log("creating stripe price");
           this.body = <Stripe.PriceCreateParams>this.body;
-          // this.createStripePrice(_req, res);
+          this.createStripePrice(_req, res);
         } else {
           this.body = <Stripe.PriceUpdateParams>this.body;
           this.updateStripePrice(_req, res);
