@@ -1,14 +1,14 @@
 import { APP_URL } from "@/constants/common";
 
 // BigCommerce App Details
-process.env.NEXT_PUBLIC_BC_APP_ID = "44627";
+process.env.NEXT_PUBLIC_BC_APP_ID = "45041";
 export const BC_APP_ID = parseInt(process.env.NEXT_PUBLIC_BC_APP_ID);
 export const BC_APP_CLIENT_ID = process.env.BC_APP_CLIENT_ID;
 export const BC_APP_SECRET = process.env.BC_APP_SECRET;
 export const BC_APP_CALLBACK_URL = `${APP_URL}/api/auth`;
 
 // BigCommerce Channel Name
-export const SUBSCRIPTION_CHANNEL_NAME = "Stripe Subscriptions";
+export const SUBSCRIPTION_CHANNEL_NAME = "SL Subscriptions";
 
 // BigCommerce Customer Attribute Field & Metafield Names
 export const SUBSCRIPTION_CUSTOMER_ATTRIBUTE_NAME = "stripe_customer_id";
