@@ -3,7 +3,7 @@ import { axios } from "@/frontend/libs";
 import alertManager from "@/frontend/libs/alerts";
 import { errorHandler } from "@/shared/handlers/errorHandler";
 import useVariant from "@/frontend/providers/ProductProvider/modules/useVariant";
-import SubConfigRequest from "@/shared/payloads/subscription/SubConfigRequest";
+// import SubConfigRequest from "@/shared/payloads/subscription/SubConfigRequest";
 import SubscriptionOptionPayload from "@/shared/payloads/subscription/SubscriptionOptionPayload";
 import { Button } from "@bigcommerce/big-design";
 import AsyncButton from "../../Base/AsyncButton";
