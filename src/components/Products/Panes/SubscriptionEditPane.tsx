@@ -327,7 +327,7 @@ export default function SubscriptionEditPane(): JSX.Element {
           is_enabled: true,
           stripe_product_id: "prod_NM04wl3ls1KgSm",
           configsCount: 1,
-          optionsCount: 1
+          optionsCount: 2
         },
         variant: {
           id: 105,
