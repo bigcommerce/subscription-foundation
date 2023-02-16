@@ -187,6 +187,13 @@ function bindElements() {
         name: product_name + ' :' + $selected_sub_option.value,
       });
 
+      new_cart.line_items.push({
+        quantity: 1,
+        product_id: 114,
+        list_price: 99,
+        name: 'MONTHLY-SUBSCRIPTION',
+      });
+      console.log('new_cart --------->', new_cart);
       if (typeof (cart.id) === 'undefined') {
         // Create storefront mock cart to get cart id
         storefront_cart = await createStorefrontCart(storefront_cart);
