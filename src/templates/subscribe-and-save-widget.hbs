@@ -81,7 +81,7 @@ async function createStorefrontCart(cart) {
     if (response.status == 200) {
       response = {
         cart_id: json.id,
-        item_id: json.lineItems.physicalItems[0].id
+        item_id: json.lineItems.digitalItems[0].id
       }
     } else {
       // get exisiting cart id from string
@@ -184,14 +184,14 @@ function bindElements() {
         quantity: 1,
         product_id: productId,
         list_price: list_price,
-        name: product_name + ' :' + $selected_sub_option.value,
+        name: product_name,
       });
 
       new_cart.line_items.push({
         quantity: 1,
         product_id: 114,
         list_price: 99,
-        name: 'MONTHLY-SUBSCRIPTION',
+        name: 'Membership - Monthly',
       });
       console.log('new_cart --------->', new_cart);
       if (typeof (cart.id) === 'undefined') {
