@@ -47,7 +47,8 @@ export class WebhooksController extends BaseBigCommerceController {
           !isNullOrUndefined(this.body.data.type)
         ) {
           if (
-            "store/order/created" == this.body.scope &&
+            ("store/order/created" == this.body.scope ||
+              "store/order/transaction/created" == this.body.scope) &&
             "order" == this.body.data.type
           ) {
             await this.orderCreated(res);
@@ -75,7 +76,10 @@ export class WebhooksController extends BaseBigCommerceController {
     );
 
     console.log("BigCommerce Webhook :: Order Created :: order :: ", order);
-    console.log("BigCommerce Webhook :: Order Created :: order_products :: ", order_products);
+    console.log(
+      "BigCommerce Webhook :: Order Created :: order_products :: ",
+      order_products
+    );
 
     // Set BigCommere store id
     this.stripeService.setStoreId(this.store.id);
@@ -86,7 +90,9 @@ export class WebhooksController extends BaseBigCommerceController {
     // If payment hasn't gone through yet, return with no status
     // BigCommerce will try again and trigger the webhook
     if (isNullOrUndefined(order.payment_provider_id)) {
-      console.log("BigCommerce Webhook :: Order Created :: Undefined order.payment_provider_id :: Waiting for webhook to be sent again");
+      console.log(
+        "BigCommerce Webhook :: Order Created :: Undefined order.payment_provider_id :: Waiting for webhook to be sent again"
+      );
       return;
     }
     const payment_intent = await this.stripeService.getPaymentIntent(
