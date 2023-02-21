@@ -186,13 +186,6 @@ function bindElements() {
         list_price: list_price,
         name: product_name,
       });
-
-      new_cart.line_items.push({
-        quantity: 1,
-        product_id: 114,
-        list_price: 99,
-        name: 'Membership - Monthly',
-      });
       console.log('new_cart --------->', new_cart);
       if (typeof (cart.id) === 'undefined') {
         // Create storefront mock cart to get cart id
