@@ -119,11 +119,11 @@ export default function SubscriptionEditPane(): JSX.Element {
     const price_request: Stripe.PriceCreateParams = {
       currency: "usd",
       product: stripe_product_id,
-      recurring: {
-        interval: "month",
-        interval_count: 0,
-        usage_type: "licensed"
-      },
+      // recurring: {
+      //   interval: "month",
+      //   interval_count: 0,
+      //   usage_type: "licensed"
+      // },
       metadata: metadata,
       billing_scheme: "per_unit",
       tax_behavior: "unspecified",
@@ -135,9 +135,9 @@ export default function SubscriptionEditPane(): JSX.Element {
       const option = options[i];
       let stripe_price_id = option.stripe_price_id;
 
-      price_request.recurring.interval =
-        option.type.toLowerCase() as Stripe.PriceCreateParams.Recurring.Interval;
-      price_request.recurring.interval_count = option.frequency;
+      // price_request.recurring.interval =
+      //   option.type.toLowerCase() as Stripe.PriceCreateParams.Recurring.Interval;
+      // price_request.recurring.interval_count = option.frequency;
 
       // Calculating price
       if ("%" == options[i].unit) {
@@ -251,9 +251,9 @@ export default function SubscriptionEditPane(): JSX.Element {
     if (
       price_request.unit_amount_decimal != current_price.unit_amount_decimal ||
       price_request.unit_amount_decimal != current_price.unit_amount_decimal ||
-      price_request.recurring.interval != current_price.recurring.interval ||
-      price_request.recurring.interval_count !=
-        current_price.recurring.interval_count ||
+      // price_request.recurring.interval != current_price.recurring.interval ||
+      // price_request.recurring.interval_count !=
+      //   current_price.recurring.interval_count ||
       price_request.metadata.product_type !=
         current_price.metadata.product_type ||
       price_request.metadata.bc_sku != current_price.metadata.bc_sku
