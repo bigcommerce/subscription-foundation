@@ -137,7 +137,10 @@ export class WebhooksController extends BaseBigCommerceController {
       typeof payment_intent.payment_method === "string"
         ? payment_intent.payment_method
         : "";
-    console.log("customer_payment_id -------->", customer_payment_id, order_id);
+    console.log("customer_payment_id -------->", customer_payment_id);
+    console.log("orderid------>", order_id);
+    // Init Stripe with merchant token
+    await this.stripeService.initStripe(true);
     const subscription = await this.stripeService.createSubscription({
       customer: stripe_customer_id,
       items: subscription_items,
