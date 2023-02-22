@@ -99,6 +99,8 @@ export class WebhooksController extends BaseBigCommerceController {
       order.payment_provider_id
     );
 
+    console.log("payment_intent", JSON.stringify(payment_intent));
+
     const subscription_items = [];
 
     for (const i in order_products) {
