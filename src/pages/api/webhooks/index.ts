@@ -75,10 +75,13 @@ export class WebhooksController extends BaseBigCommerceController {
       order_id
     );
 
-    console.log("BigCommerce Webhook :: Order Created :: order :: ", order);
+    console.log(
+      "BigCommerce Webhook :: Order Created :: order :: ",
+      JSON.stringify(order)
+    );
     console.log(
       "BigCommerce Webhook :: Order Created :: order_products :: ",
-      order_products
+      JSON.stringify(order_products)
     );
 
     // Set BigCommere store id
@@ -139,7 +142,7 @@ export class WebhooksController extends BaseBigCommerceController {
 
     console.log(
       "BigCommerce Webhook :: Order Created :: Stripe Create Subscription Response :: subscription :: ",
-      subscription
+      JSON.stringify(subscription)
     );
 
     this.initBigApi("v3");
@@ -164,7 +167,7 @@ export class WebhooksController extends BaseBigCommerceController {
       );
     console.log(
       "BigCommerce Webhook :: Order Created :: Upsert Customer Attribute Value for Stripe Subscription IDs :: ",
-      subscription_id_response
+      JSON.stringify(subscription_id_response)
     );
 
     // Save Stripe customer id into BigCommerce store customer's account record
@@ -178,7 +181,7 @@ export class WebhooksController extends BaseBigCommerceController {
       );
     console.log(
       "BigCommerce Webhook :: Order Created :: Upsert Customer Attribute Value for Stripe Customer ID :: ",
-      customer_id_response
+      JSON.stringify(customer_id_response)
     );
 
     res.status(HttpStatus.OK).send("ok");
