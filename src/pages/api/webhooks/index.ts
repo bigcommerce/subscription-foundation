@@ -47,8 +47,7 @@ export class WebhooksController extends BaseBigCommerceController {
           !isNullOrUndefined(this.body.data.type)
         ) {
           if (
-            ("store/order/created" == this.body.scope ||
-              "store/order/transaction/created" == this.body.scope) &&
+            "store/order/created" == this.body.scope &&
             "order" == this.body.data.type
           ) {
             await this.orderCreated(res);
@@ -85,7 +84,7 @@ export class WebhooksController extends BaseBigCommerceController {
     this.stripeService.setStoreId(this.store.id);
 
     // Init Stripe with merchant token
-    await this.stripeService.initStripe(true);
+    await this.stripeService.initStripe(false);
 
     // If payment hasn't gone through yet, return with no status
     // BigCommerce will try again and trigger the webhook
