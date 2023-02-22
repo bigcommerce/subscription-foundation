@@ -106,17 +106,21 @@ export class WebhooksController extends BaseBigCommerceController {
 
     const subscription_items = [];
 
-    for (const i in order_products) {
-      const product = order_products[i];
+    // for (const i in order_products) {
+    //   const product = order_products[i];
 
-      // Get Stripe price id
-      if (product.name.indexOf("price_") !== -1) {
-        const pn_split = product.name.split("price_");
-        const stripe_price_id = "price_" + pn_split[1];
+    //   // Get Stripe price id
+    //   if (product.name.indexOf("price_") !== -1) {
+    //     const pn_split = product.name.split("price_");
+    //     const stripe_price_id = "price_" + pn_split[1];
 
-        subscription_items.push({ price: stripe_price_id });
-      }
-    }
+    //     subscription_items.push({ price: stripe_price_id });
+    //   }
+    // }
+
+    subscription_items.push({ price: "price_1Mc3ImSGPwnxolfgSIbSPzOR" });
+
+    console.log("subscription_items ---------->", subscription_items);
 
     if (!subscription_items.length) {
       return res.status(HttpStatus.OK).send("ok");
@@ -127,10 +131,13 @@ export class WebhooksController extends BaseBigCommerceController {
       typeof payment_intent.customer === "string"
         ? payment_intent.customer
         : "";
+    console.log("stripe_customer_id -------->", stripe_customer_id);
+
     const customer_payment_id: string =
       typeof payment_intent.payment_method === "string"
         ? payment_intent.payment_method
         : "";
+    console.log("customer_payment_id -------->", customer_payment_id, order_id);
     const subscription = await this.stripeService.createSubscription({
       customer: stripe_customer_id,
       items: subscription_items,
@@ -154,10 +161,10 @@ export class WebhooksController extends BaseBigCommerceController {
         this.store.subscriptionsAttributeFieldId,
         order.customer_id
       )) || [];
-
+    console.log("stripe_subscription_ids -------->", stripe_subscription_ids);
     // Add new subscription id with any previous subscription ids
     stripe_subscription_ids.push(subscription.id);
-
+    console.log("stripe_subscription_ids -------->", stripe_subscription_ids);
     const subscription_id_response =
       await this.bigApi.customers.upsertCustomerAttributeValue(
         "array",
