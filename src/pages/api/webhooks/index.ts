@@ -47,7 +47,8 @@ export class WebhooksController extends BaseBigCommerceController {
           !isNullOrUndefined(this.body.data.type)
         ) {
           if (
-            "store/order/created" == this.body.scope &&
+            ("store/order/created" == this.body.scope ||
+              "store/order/transaction/created" == this.body.scope) &&
             "order" == this.body.data.type
           ) {
             await this.orderCreated(res);
