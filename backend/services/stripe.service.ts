@@ -66,6 +66,8 @@ export class StripeService {
   public async createCustomer(
     params: Stripe.CustomerCreateParams
   ): Promise<Stripe.Response<Stripe.Customer>> {
+    console.log("creaing customer------->", params);
+    await this.initStripe(true);
     return await this.stripe.customers.create(params, {
       idempotencyKey: uuidv4()
     });

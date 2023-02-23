@@ -23,11 +23,11 @@ export class StripeConnectController extends BaseStripeController {
 
     // Initialize Stripe API
     this.stripeService.initStripe(false);
-
+    console.log("stripeUserId ------------>", stripeUserId);
     const stripeAccount = await this.stripeService.stripe.accounts.retrieve(
       stripeUserId
     );
-
+    console.log("stripeAccount ------------>", stripeAccount);
     await this.stripeService.stripeClient.upsert({
       where: {
         storeId: this.store.id
@@ -61,6 +61,7 @@ export class StripeConnectController extends BaseStripeController {
         Stripe: true
       }
     });
+    console.log("store -------------->", store);
     return res.json(new StoreTransformer().getJSON(store));
   }
 }
