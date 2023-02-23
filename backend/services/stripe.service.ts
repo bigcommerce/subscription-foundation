@@ -25,21 +25,21 @@ export class StripeService {
   public async initStripe(authorizeMerchant: boolean): Promise<void> {
     // Set Prisma Stripe client
     this.stripeClient = stripeClient;
+    console.log(authorizeMerchant);
+    // if (authorizeMerchant) {
+    //   const merchant_id = await this.getMerchantId();
 
-    if (authorizeMerchant) {
-      const merchant_id = await this.getMerchantId();
-
-      // Initalize Stripe module with merchant access token
-      this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-        stripeAccount: merchant_id,
-        apiVersion: null
-      });
-    } else {
-      // Initalize Stripe module with app secret key
-      this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-        apiVersion: null
-      });
-    }
+    //   // Initalize Stripe module with merchant access token
+    //   this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    //     stripeAccount: merchant_id,
+    //     apiVersion: null
+    //   });
+    // } else {
+    // Initalize Stripe module with app secret key
+    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: null
+    });
+    //}
   }
 
   /**
