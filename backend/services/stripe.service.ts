@@ -104,17 +104,17 @@ export class StripeService {
   /**
    * Get Stripe merchant id
    **/
-  private async getMerchantId(): Promise<string> {
-    const merchantStripeResponse = await this.stripeClient.findUnique({
-      where: {
-        storeId: this.store_id
-      },
-      select: {
-        stripeUserId: true
-      }
-    });
-    return merchantStripeResponse.stripeUserId;
-  }
+  // private async getMerchantId(): Promise<string> {
+  //   const merchantStripeResponse = await this.stripeClient.findUnique({
+  //     where: {
+  //       storeId: this.store_id
+  //     },
+  //     select: {
+  //       stripeUserId: true
+  //     }
+  //   });
+  //   return merchantStripeResponse.stripeUserId;
+  // }
 
   //#endregion
 }
