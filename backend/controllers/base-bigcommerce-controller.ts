@@ -84,16 +84,18 @@ export abstract class BaseBigCommerceController extends AuthApiController {
     res: NextApiResponse,
     reset = false
   ) {
+    console.log("authFlow ---------");
     const channelFound = await this.bigApi.channels.find(
       SUBSCRIPTION_CHANNEL_NAME
     );
-
+    console.log("channelFound ------------>", channelFound);
     setCookieOnBackend(res, "token", this.user.token);
     setCookieOnBackend(res, "store_id", this.store.id);
 
     // If store already has a channel with the same name, skip channel creation
     if (channelFound) {
       if (reset || !["connected", "active"].includes(channelFound.status)) {
+        console.log("1111111111");
         await this.bigApi.channels.update(channelFound.id, {
           is_visible: false,
           is_listable_from_ui: false,
@@ -105,11 +107,13 @@ export abstract class BaseBigCommerceController extends AuthApiController {
             }
           }
         });
+        console.log("22222222222222");
       } else {
         setCookieOnBackend(res, "channel_id", channelFound.id);
 
         // Redirect to requested page if the "section" query string is present. Otherwise, redirect to the products page.
         const slug = req.query["section"] ?? "products";
+        console.log("3333333333", slug);
         return res.redirect(`/${slug}`);
       }
     }

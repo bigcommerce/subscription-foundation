@@ -37,6 +37,8 @@ export class AuthController extends BaseBigCommerceController {
       }
     });
 
+    console.log("this.user ------->", this.user);
+
     // Create or update the store
     this.store = (await storeClient.upsert({
       where: {
@@ -51,6 +53,7 @@ export class AuthController extends BaseBigCommerceController {
       }
     })) as any;
 
+    console.log("this.store -------->", this.store);
     await usersOnStoresClient.upsert({
       where: {
         userId_storeId: {
@@ -64,10 +67,10 @@ export class AuthController extends BaseBigCommerceController {
       },
       update: {}
     });
-
+    console.log("upsert done");
     // Update BigCommerce API client with store hash and access token
     this.initBigApi();
-
+    console.log("upsert done 1");
     // Initialize BigCommerce webhooks
     this.bigApi.webhooks.initAppWebhooks();
 
