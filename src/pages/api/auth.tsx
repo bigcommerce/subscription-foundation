@@ -19,23 +19,26 @@ export class AuthController extends BaseBigCommerceController {
     const authData = await this.BigCommerceClient.authorize(req.query);
     const accessToken: string = authData.access_token;
     const storeHash: string = authData.context.split("/")[1];
-
-    // Create or update the user
-    this.user = await userClient.upsert({
-      where: {
-        id: authData.user.id
-      },
-      create: {
-        id: authData.user.id,
-        token: crypto.randomBytes(30).toString("hex"),
-        email: authData.user.email,
-        username: authData.user.username
-      },
-      update: {
-        email: authData.user.email,
-        username: authData.user.username
-      }
-    });
+    try {
+      // Create or update the user
+      this.user = await userClient.upsert({
+        where: {
+          id: authData.user.id
+        },
+        create: {
+          id: authData.user.id,
+          token: crypto.randomBytes(30).toString("hex"),
+          email: authData.user.email,
+          username: authData.user.username
+        },
+        update: {
+          email: authData.user.email,
+          username: authData.user.username
+        }
+      });
+    } catch (err) {
+      console.log("error in user", err);
+    }
 
     console.log("this.user ------->", this.user);
 
