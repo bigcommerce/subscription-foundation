@@ -17,6 +17,7 @@ export class AuthController extends BaseBigCommerceController {
   ): Promise<NextApiResponse | void> {
     console.log("auth called ----------->", req.query);
     const authData = await this.BigCommerceClient.authorize(req.query);
+    console.log("authData ------->", authData);
     const accessToken: string = authData.access_token;
     const storeHash: string = authData.context.split("/")[1];
     try {
