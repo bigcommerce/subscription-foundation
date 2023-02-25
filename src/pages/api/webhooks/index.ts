@@ -144,7 +144,7 @@ export class WebhooksController extends BaseBigCommerceController {
     const subscription = await this.stripeService.createSubscription({
       customer: stripe_customer_id,
       items: subscription_items,
-      // default_payment_method: customer_payment_id,
+      default_payment_method: customer_payment_id,
       metadata: {
         bc_order_id: order_id
       }
