@@ -22,6 +22,7 @@ export class StripeConnectController extends BaseStripeController {
     } = await this.stripeService.connectAccount(req.body.code);
 
     // Initialize Stripe API
+
     this.stripeService.initStripe(false);
     console.log("stripeUserId ------------>", stripeUserId);
     const stripeAccount = await this.stripeService.stripe.accounts.retrieve(

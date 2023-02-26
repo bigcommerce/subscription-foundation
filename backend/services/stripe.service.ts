@@ -26,20 +26,20 @@ export class StripeService {
     // Set Prisma Stripe client
     this.stripeClient = stripeClient;
     console.log(authorizeMerchant);
-    // if (authorizeMerchant) {
-    //   const merchant_id = await this.getMerchantId();
+    if (authorizeMerchant) {
+      const merchant_id = await this.getMerchantId();
 
-    //   // Initalize Stripe module with merchant access token
-    //   this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    //     stripeAccount: merchant_id,
-    //     apiVersion: null
-    //   });
-    // } else {
-    // Initalize Stripe module with app secret key
-    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: null
-    });
-    //}
+      // Initalize Stripe module with merchant access token
+      this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+        stripeAccount: merchant_id,
+        apiVersion: null
+      });
+    } else {
+      // Initalize Stripe module with app secret key
+      this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+        apiVersion: null
+      });
+    }
   }
 
   /**
@@ -104,17 +104,17 @@ export class StripeService {
   /**
    * Get Stripe merchant id
    **/
-  // private async getMerchantId(): Promise<string> {
-  //   const merchantStripeResponse = await this.stripeClient.findUnique({
-  //     where: {
-  //       storeId: this.store_id
-  //     },
-  //     select: {
-  //       stripeUserId: true
-  //     }
-  //   });
-  //   return merchantStripeResponse.stripeUserId;
-  // }
+  private async getMerchantId(): Promise<string> {
+    const merchantStripeResponse = await this.stripeClient.findUnique({
+      where: {
+        storeId: this.store_id
+      },
+      select: {
+        stripeUserId: true
+      }
+    });
+    return merchantStripeResponse.stripeUserId;
+  }
 
   //#endregion
 }
