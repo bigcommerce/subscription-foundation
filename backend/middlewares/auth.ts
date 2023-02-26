@@ -4,7 +4,6 @@ import HttpError from "../exceptions/http-error";
 import { usersOnStoresClient } from "../prisma";
 
 export const verifyUserAndStore = async (req: NextApiRequest) => {
-  console.log(JSON.stringify(req));
   if (!req.cookies?.token) throw new HttpError("Invalid User", 401);
   const { user, store } = await getUserAndStore(req.cookies);
   if (!user) throw new HttpError("Can't find user", 401);
