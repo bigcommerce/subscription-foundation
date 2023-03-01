@@ -165,26 +165,21 @@ function bindElements() {
       };
       var cartItemResponse = false;
 
-      var $selected_sub_option = document.querySelector('input[name="sub_option[]"]:checked');
-      var product_name = document.querySelector('h1.productView-title').innerText;
-
-      var list_price = parseFloat(($selected_sub_option.dataset.calculatedPrice / 100).toFixed(2));
-
       // Add loading animation to subscribe button
       e.target.classList.add('activeLoading');
-
+      console.log('productId ------->', productId);
       storefront_cart.line_items.push({
         quantity: 1,
-        product_id: productId,
-        list_price: list_price,
-        name: product_name,
+        product_id: 116,
+        list_price: 20,
+        name: 'Test Product',
       });
 
       new_cart.line_items.push({
-        quantity: 1,
-        product_id: productId,
-        list_price: list_price,
-        name: product_name,
+         quantity: 1,
+         product_id: 116,
+         list_price: 20,
+         name: 'Test Product',
       });
       new_cart.line_items.push({
         quantity: 1,
@@ -212,6 +207,7 @@ function bindElements() {
         console.error('Error occurred adding subscription to the cart :: ', cartItemResponse);
       }
     }());
+        
   });
 }
 
