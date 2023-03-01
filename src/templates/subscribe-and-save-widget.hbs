@@ -56,6 +56,23 @@ async function getCart() {
 
 }
 
+// get product details
+async function getProduct() {
+  try {
+    var response = await fetch(`/api/product/${productId}`, {
+      method: "GET",
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+    console.log('product ------>', response);
+  } catch (error) {
+    console.error('getCart error: ' + error);
+  }
+
+}
+
 
 /**
  * Create Storefront Cart
@@ -168,6 +185,7 @@ function bindElements() {
       // Add loading animation to subscribe button
       e.target.classList.add('activeLoading');
       console.log('productId ------->', productId);
+      await getProduct();
       storefront_cart.line_items.push({
         quantity: 1,
         product_id: 116,
