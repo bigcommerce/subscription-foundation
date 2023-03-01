@@ -276,7 +276,7 @@ var getSubscriptionOptions = async () => {
     })
     .then(res => res.json())
     .then(json => {
-      var subWidgetConfigString = json?.data?.site?.product?.variants?.edges?.[0].node?.metafields;
+      var subWidgetConfigString = json?.data?.site?.product?.variants?.edges?.[0]?.node?.metafields;
       subVariantProducts = json?.data?.site?.product?.variants?.edges;
 
       if (typeof subWidgetConfigString !== 'undefined') {
