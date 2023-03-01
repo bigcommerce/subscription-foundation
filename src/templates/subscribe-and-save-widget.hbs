@@ -59,16 +59,18 @@ async function getCart() {
 // get product details
 async function getProduct() {
   try {
-    var response = await fetch(`/api/product/${productId}`, {
-      method: "GET",
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    });
-    console.log('product ------>', response);
+    if (productId) {
+      var response = await fetch(`/api/product/${productId}`, {
+        method: "GET",
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+      console.log('product ------>', response);
+    }
   } catch (error) {
-    console.error('getCart error: ' + error);
+    console.error('getproduct error: ' + error);
   }
 
 }
@@ -310,6 +312,7 @@ var getSubscriptionOptions = async () => {
           console.log('No subscription options have been defined for this product');
         }
       }
+      bindElements();
     });
 }
 
