@@ -59,9 +59,8 @@ async function getCart() {
 // get product details
 async function getProduct() {
   try {
-    console.log('process.env.NEXT_PUBLIC_APP_URL------->', process.env.NEXT_PUBLIC_APP_URL);
     if (productId) {
-      var response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/product/${productId}`, {
+      var response = await fetch(`{{appUrl}}/api/product/${productId}`, {
         method: "GET",
       });
       console.log('product ------>', response);
