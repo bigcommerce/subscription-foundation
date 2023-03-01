@@ -320,7 +320,7 @@ if (typeof isProductVariation !== 'undefined' && isProductVariation !== null) {
           for (variationProduct of subVariantProducts) {
             // If sku matches, update subscription widget with new options
             if (variationProduct.node.sku == variationSku) {
-              var variationConfig = variationProduct.node.metafields?.edges?.[0].node?.value;
+              var variationConfig = variationProduct.node.metafields?.edges?.[0]?.node?.value;
 
               if (typeof variationConfig !== 'undefined') {
                 variantFound = true;
