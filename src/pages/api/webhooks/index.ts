@@ -118,7 +118,7 @@ export class WebhooksController extends BaseBigCommerceController {
     //   }
     // }
 
-    subscription_items.push({ price: process.env.STRIPE_SUBSCRIPTION_PRICE });
+    subscription_items.push({ price: "price_1MedXOEr4p5zg8WUq6gPbY3f" });
 
     console.log("subscription_items ---------->", subscription_items);
 
