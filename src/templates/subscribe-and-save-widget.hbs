@@ -185,44 +185,46 @@ function bindElements() {
       // Add loading animation to subscribe button
       e.target.classList.add('activeLoading');
       console.log('productId ------->', productId);
-      await getProduct();
-      storefront_cart.line_items.push({
-        quantity: 1,
-        product_id: 116,
-        list_price: 20,
-        name: 'Test Product',
-      });
+      if (productId) {
+        await getProduct();
+        storefront_cart.line_items.push({
+          quantity: 1,
+          product_id: 116,
+          list_price: 20,
+          name: 'Test Product',
+        });
 
-      new_cart.line_items.push({
-         quantity: 1,
-         product_id: 116,
-         list_price: 20,
-         name: 'Test Product',
-      });
-      new_cart.line_items.push({
-        quantity: 1,
-        product_id: 117,
-        list_price: 99,
-        name: 'Membership - Monthly',
-      });
-      console.log('new_cart --------->', new_cart);
-      if (typeof (cart.id) === 'undefined') {
-        // Create storefront mock cart to get cart id
-        storefront_cart = await createStorefrontCart(storefront_cart);
+        new_cart.line_items.push({
+          quantity: 1,
+          product_id: 116,
+          list_price: 20,
+          name: 'Test Product',
+        });
+        new_cart.line_items.push({
+          quantity: 1,
+          product_id: 117,
+          list_price: 99,
+          name: 'Membership - Monthly',
+        });
+        console.log('new_cart --------->', new_cart);
+        if (typeof (cart.id) === 'undefined') {
+          // Create storefront mock cart to get cart id
+          storefront_cart = await createStorefrontCart(storefront_cart);
 
-        // Add cart item to existing cart
-        cartItemResponse = await addCartItems(storefront_cart.cart_id, new_cart);
+          // Add cart item to existing cart
+          cartItemResponse = await addCartItems(storefront_cart.cart_id, new_cart);
 
-        // Delete mock product (which has the incorrect, original price)
-        var deleteCartItemResponse = await deleteCartItem(storefront_cart.cart_id, storefront_cart.item_id)
-      } else {
-        cartItemResponse = await addCartItems(cart.id, new_cart);
-      }
+          // Delete mock product (which has the incorrect, original price)
+          var deleteCartItemResponse = await deleteCartItem(storefront_cart.cart_id, storefront_cart.item_id)
+        } else {
+          cartItemResponse = await addCartItems(cart.id, new_cart);
+        }
 
-      if (typeof (cartItemResponse.data) !== 'undefined') {
-        window.location.href = '/cart.php';
-      } else {
-        console.error('Error occurred adding subscription to the cart :: ', cartItemResponse);
+        if (typeof (cartItemResponse.data) !== 'undefined') {
+          window.location.href = '/cart.php';
+        } else {
+          console.error('Error occurred adding subscription to the cart :: ', cartItemResponse);
+        }
       }
     }());
         
