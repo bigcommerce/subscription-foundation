@@ -56,21 +56,6 @@ async function getCart() {
 
 }
 
-// get product details
-async function getProduct() {
-  try {
-    if (productId) {
-      var response = await fetch(`{{appUrl}}/api/product/${productId}`, {
-        method: "GET",
-      });
-      console.log('product ------>', response);
-    }
-  } catch (error) {
-    console.error('getproduct error: ' + error);
-  }
-
-}
-
 
 /**
  * Create Storefront Cart
@@ -183,20 +168,22 @@ function bindElements() {
       // Add loading animation to subscribe button
       e.target.classList.add('activeLoading');
       console.log('productId ------->', productId);
+      let productPrice = document.getElementsByClassName('price--withoutTax')[0].innerHTML.split('$')[1];
+      productPrice = parseInt(productPrice);
+      let productTitle = document.getElementsByClassName('productView-title')[0].innerHTML;
       if (productId) {
-        await getProduct();
         storefront_cart.line_items.push({
           quantity: 1,
-          product_id: 116,
-          list_price: 20,
-          name: 'Test Product',
+          product_id: productId,
+          list_price: productPrice,
+          name: productTitle,
         });
 
         new_cart.line_items.push({
           quantity: 1,
-          product_id: 116,
-          list_price: 20,
-          name: 'Test Product',
+          product_id: productId,
+          list_price: productPrice,
+          name: productTitle,
         });
         new_cart.line_items.push({
           quantity: 1,
