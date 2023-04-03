@@ -151,6 +151,13 @@ export class WebhooksController extends BaseBigCommerceController {
       }
     });
 
+    // add customer to the active subscription group
+    const response = await this.bigApi.customers.updateCustomerGroup(
+      order.customer_id,
+      1
+    );
+    console.log("response from add to grp ------------------>", response);
+
     console.log(
       "BigCommerce Webhook :: Order Created :: Stripe Create Subscription Response :: subscription :: ",
       JSON.stringify(subscription)
