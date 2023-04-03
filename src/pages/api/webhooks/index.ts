@@ -156,7 +156,7 @@ export class WebhooksController extends BaseBigCommerceController {
       order.customer_id,
       1
     );
-    console.log("response from add to grp ------------------>", response);
+    console.log("response from add to group ------------------>", response);
 
     console.log(
       "BigCommerce Webhook :: Order Created :: Stripe Create Subscription Response :: subscription :: ",
