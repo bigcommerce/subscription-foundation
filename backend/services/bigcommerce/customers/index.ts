@@ -188,10 +188,8 @@ export default class CustomersApi extends BigBaseApi {
   }
 
   public async updateCustomerGroup(customer_id: number, group_id: number) {
-    return await this.client.put(`${this.baseUri}/${customer_id}`, [
-      {
-        customer_group_id: group_id
-      }
-    ]);
+    return await this.client.put(`${this.baseUri}/${customer_id}`, {
+      customer_group_id: group_id
+    });
   }
 }
