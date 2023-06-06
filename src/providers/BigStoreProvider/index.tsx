@@ -32,7 +32,7 @@ const BigStoreProvider = (props: { children: React.ReactElement }) => {
         setUser
       }}
     >
-      {!loading ? props.children : React.Fragment}
+      {!loading ? props.children : <></>}
     </BigStoreContext.Provider>
   );
 };
