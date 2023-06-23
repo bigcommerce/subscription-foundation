@@ -1,4 +1,5 @@
 import BigBaseApi from "../big-base-api";
+import {SUBSCRIPTION_CUSTOMER_ATTRIBUTE_NAME, SUBSCRIPTION_IDS_ATTRIBUTE_NAME } from "@/shared/constants/bigcommerce";
 
 /**
  * Customer API
@@ -97,16 +98,16 @@ export default class CustomersApi extends BigBaseApi {
    */
   public async getExistingCustomerAttributeNameIds() {
     const attributeNameSearchResults = await this.client.get(
-      `${this.baseUri}/attributes?name=${process.env.SUBSCRIPTION_CUSTOMER_ATTRIBUTE_NAME}`
+      `${this.baseUri}/attributes?name=${SUBSCRIPTION_CUSTOMER_ATTRIBUTE_NAME}`
     );
     const attributeNameSearchResults2 = await this.client.get(
-      `${this.baseUri}/attributes?name=${process.env.SUBSCRIPTION_IDS_ATTRIBUTE_NAME}`
+      `${this.baseUri}/attributes?name=${SUBSCRIPTION_IDS_ATTRIBUTE_NAME}`
     );
 
     return {
-      [process.env.SUBSCRIPTION_CUSTOMER_ATTRIBUTE_NAME]:
+      [SUBSCRIPTION_CUSTOMER_ATTRIBUTE_NAME]:
         attributeNameSearchResults.data[0]?.id,
-      [process.env.SUBSCRIPTION_IDS_ATTRIBUTE_NAME]:
+      [SUBSCRIPTION_IDS_ATTRIBUTE_NAME]:
         attributeNameSearchResults2.data[0]?.id
     };
   }
