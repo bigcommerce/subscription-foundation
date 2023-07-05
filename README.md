@@ -21,9 +21,9 @@ Head to the [Subscription Foundation](https://developer.bigcommerce.com/docs/ae2
 ## Key areas of codebase
 
 - `/backend`
-  - Where the auth and various API services live. These are uses within the internal API endpoints to keep routes secure and reach out to external APIs.
+  - Where the auth and various API services live. These are used within the internal API endpoints to keep routes secure and reach out to external APIs.
 - `/prisma`
-  - Where the DB models and initial seed data lives. Prisma uses this to generate DB clients for the app.
+  - Where the DB models and initial seed data live. Prisma uses this to generate DB clients for the app.
 - `/shared`
   - Where the types and helper utilities are located.
 - `/src/pages`
@@ -32,9 +32,9 @@ Head to the [Subscription Foundation](https://developer.bigcommerce.com/docs/ae2
 - `/src/pages/api`
   - Where the APIs for the app are managed.
   - Next.js docs: https://nextjs.org/docs/api-routes/introduction
-    - `/cart`, `/channel`, and `/product`: Contains endpoints that proxy to BigCommerce APIs.`
-    - `/store`: Contains endpoints that update app information in the DB.`
-    - `/stripe`: Contains endpoints that proxy to Stripe APIs.`
+    - `/cart`, `/channel`, and `/product`: Contains endpoints that proxy to BigCommerce APIs.
+    - `/store`: Contains endpoints that update app information in the DB.
+    - `/stripe`: Contains endpoints that proxy to Stripe APIs.
     - `/webhooks/index.ts`: Contains the webhook listener for the "Order Created" BigCommerce event which is used to create the initial Stripe subscription.
 - `/src/providers`
   - Where the context providers used within pages and components live.
@@ -45,12 +45,12 @@ Want to help expand this foundation? We'd love to collaborate! To kick off, here
 
 - Improvements:
   - Implement cart metafields to improve shopper UX (removes overloading of product name)
-  - Move FE cart requests / calculations within subscription widget to be handled within single internal API endpoint
-  - Centralize logging so it's easily turned on / off and connected into third-party logging services
+  - Move FE cart requests / calculations within the subscription widget to be handled within a single internal API endpoint
+  - Centralize logging so it's easily turned on / off and connected to third-party logging services
 - Features:
   - Additional subscription use cases outside of 'Subscribe and Save'
-  - Handling for more complex tax and shipping scenarios, changes occurs to price after initial subscription creation
-  - Ability to see subscription information inline, within My Account -> Order section of storefront
+  - Handling for more complex tax and shipping scenarios, changes occur to price after initial subscription creation
+  - Ability to see subscription information inline, within My Account -> Order section of the storefront
 
 ## Learn More
 
