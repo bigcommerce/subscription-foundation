@@ -7,8 +7,7 @@ import { DisplaySettingPayload } from "@/shared/payloads/DisplaySettingPayload";
 import HttpStatus from "http-status-codes";
 import { appContainer } from "@/shared/di-container/app";
 import { injectable } from "tsyringe";
-import { STOREFRONT_CONTENT_MODE } from "@/constants/bigcommerce";
-
+import { STOREFRONT_CONTENT_MODE, SUBSCRIPTION_CUSTOMER_ATTRIBUTE_NAME, SUBSCRIPTION_IDS_ATTRIBUTE_NAME } from "@/constants/bigcommerce";
 @injectable()
 export class DisplaySettingController extends BaseBigCommerceController {
   public requiresAuth = true;
@@ -121,9 +120,9 @@ export class DisplaySettingController extends BaseBigCommerceController {
       await this.bigApi.customers.upsertInitialCustomerAttributes();
     const customerAttributesUpdate = {
       customerAttributeFieldId:
-        customerAttributeIds[process.env.SUBSCRIPTION_CUSTOMER_ATTRIBUTE_NAME],
+        customerAttributeIds[SUBSCRIPTION_CUSTOMER_ATTRIBUTE_NAME],
       subscriptionsAttributeFieldId:
-        customerAttributeIds[process.env.SUBSCRIPTION_IDS_ATTRIBUTE_NAME]
+        customerAttributeIds[SUBSCRIPTION_IDS_ATTRIBUTE_NAME]
     };
 
     // Update store record with secure store URL and the script or widget ids from the upsert process above
