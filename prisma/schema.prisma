@@ -12,7 +12,7 @@ model Store {
   hash                            String          @unique
   url                             String?
   accessToken                     String
-  storefrontToken                 String?
+  storefrontToken                 String?         @db.Text
   customerAttributeFieldId        Int?
   subscriptionsAttributeFieldId   Int?
   scriptId                        String?
