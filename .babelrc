@@ -1,5 +1,5 @@
 {
-  "presets": ["next/babel"],
+  "presets": [["next/babel", { "class-properties": { "loose": true } }]],
   "plugins": [["styled-components", { "ssr": true }], [
     "@babel/plugin-proposal-decorators",
     {
